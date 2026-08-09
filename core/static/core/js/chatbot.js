@@ -28,7 +28,7 @@
         // Nepali (50+ Patterns)
         { 
             patterns: [
-                /namaste/i, /namaskar/i, /sanchai/i, /k chha/i, /k cha/i, /k xa/i, /hjur/i, /hazur/i, /helau/i, /hello/i, /hi/i,
+                /namaste\b/i, /namaskar\b/i, /sanchai\b/i, /k chha\b/i, /k cha\b/i, /k xa\b/i, /hjur\b/i, /hazur\b/i, /helau\b/i, /hello\b/i, /hi\b/i,
                 /sanchai hunuhunchha/i, /sanchai hunuhunxa/i, /sanchai xau/i, /sanchai chhau/i, /sanchai chau/i,
                 /k chha khabar/i, /k cha khabar/i, /k xa khabar/i, /khabar k chha/i, /khabar k cha/i, /khabar k xa/i,
                 /sanchai aram/i, /sanchai aramai/i, /saramai/i, /aramai chha/i, /aramai cha/i, /aramai xa/i,
@@ -246,6 +246,11 @@
             keywords: ["loader screen", "loading animation", "branding loader", "logo animation"],
             content: "⏳ **Branding Loading Screen**:\nBoth the homepage and CV page feature an identical high-contrast animated loading screen, displaying a glowing profile logo, progress bar, and popping text."
         },
+        {
+            topic: "skills_summary",
+            keywords: ["skills", "technical skills", "core skills", "tech stack", "what are his skills", "what does he know", "programming languages", "technologies"],
+            content: "💡 **Here are Sanjaya's Technical Skills!**\n\nSanjaya is a highly versatile developer who combines strong engineering foundations with intuitive user interface designs. Here is his professional tech stack:\n\n* 💻 **Core Languages & Web Frameworks**: Python (Django, Flask), React, Node.js, JavaScript (ES6+), HTML5, and CSS3.\n* ⚙️ **Database & API Design**: REST APIs, SQLite, MySQL, and PostgreSQL.\n* 🛠️ **Design, Tools & Workflow**: Figma, UI/UX prototyping, Git/GitHub version control, Adobe XD, Photoshop, Video Editing, and modern AI automation tools.\n* 🚀 **Currently Exploring & Mastering**: Next.js, TypeScript, Cloud Deployment, Docker & Containers, System Design, Web Security, and Machine Learning.\n\nHe is always enthusiastic about learning new technologies and implementing optimized solutions. Feel free to ask me details about any specific skill!"
+        },
 
         // Group 3: B.Sc. CSIT Education (31-45)
         {
@@ -347,8 +352,8 @@
         },
         {
             topic: "portfolio_website",
-            keywords: ["portfolio website", "portfolio django", "this site", "about this project"],
-            content: "🚀 **Django Portfolio Website**:\nThis personal portfolio is built on a Django backend. Features include visitor location logs, dynamic CV generator, responsive neon styling, interactive business card modal, and Dasa AI."
+            keywords: ["portfolio website", "portfolio django", "this site", "about this project", "portfolio link", "portfolio url"],
+            content: "🚀 **Django Portfolio Website**:\nThis personal portfolio is built on a Django backend. It is live at: [www.kandelsanjaya.com.np](https://www.kandelsanjaya.com.np). Features include visitor location logs, dynamic CV generator, responsive neon styling, interactive business card modal, and Dasa AI."
         },
         {
             topic: "portfolio_features",
@@ -634,20 +639,42 @@
             topic: "dasa_ai_meaning",
             keywords: ["dasa ai meaning", "what is dasa", "about dasa ai"],
             content: "🤖 **About Dasa AI**:\nDasa AI is Sanjaya's custom-built client RAG agent. It processes user keywords to answer questions about his career directly in the browser."
+        },
+        {
+            topic: "admin_panel",
+            keywords: ["admin", "admin panel", "login", "credentials", "superuser", "staff", "dashboard"],
+            content: "🔑 **Admin Panel & Login Details**:\n- **URL**: [/admin/](/admin/)\n- **Username**: `admin`\n- **Password**: `admin1234`\n\nYou can log in there to manage projects, certificates, skills, education history, and view visitor statistics!"
         }
     ];
 
-    // 5. RAG Retrieval & Context Matching Engine
+    // 5. RAG Retrieval & Context Matching Engine (With Fuzzy Typo Tolerant Logic)
     function retrieveContext(query) {
-        const tokens = query.toLowerCase().replace(/[^\w\s]/gi, '').split(/\s+/).filter(t => t.length > 2);
+        const cleanQuery = query.toLowerCase().replace(/[^\w\s]/gi, '');
+        const tokens = cleanQuery.split(/\s+/).filter(t => t.length > 2);
         let bestMatch = null;
         let highestScore = 0;
 
         KNOWLEDGE_BASE.forEach(item => {
             let score = 0;
             item.keywords.forEach(kw => {
-                if (tokens.includes(kw)) score += 3;
-                else if (query.toLowerCase().includes(kw)) score += 1.5;
+                // Exact word matching
+                if (tokens.includes(kw)) {
+                    score += 3.0;
+                }
+                // String inclusion matching
+                else if (cleanQuery.includes(kw)) {
+                    score += 1.5;
+                }
+                // Fuzzy fallback matching for minor spelling typos
+                else {
+                    tokens.forEach(tok => {
+                        if (tok.length > 3 && kw.length > 3) {
+                            if (tok.includes(kw) || kw.includes(tok)) {
+                                score += 1.0;
+                            }
+                        }
+                    });
+                }
             });
             if (score > highestScore) {
                 highestScore = score;
@@ -698,7 +725,30 @@
 
         if (!widget || !toggleBtn) return;
 
+        // Create speech bubble greeting popup
+        const popup = document.createElement('div');
+        popup.className = 'meta-chatbot-popup';
+        popup.innerHTML = 'Hii, I am Dasa AI! How can I help you?';
+        widget.appendChild(popup);
+
+        // Show popup after 1.5 seconds, vanish after 5 seconds
+        setTimeout(() => {
+            if (!widget.classList.contains('active')) {
+                popup.style.opacity = '1';
+                popup.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    popup.style.opacity = '0';
+                    popup.style.transform = 'translateY(10px)';
+                    setTimeout(() => popup.remove(), 400);
+                }, 5000);
+            } else {
+                popup.remove();
+            }
+        }, 1500);
+
         toggleBtn.addEventListener('click', function () {
+            popup.remove();
             const isActive = widget.classList.toggle('active');
             const botImg = toggleBtn.querySelector('img.bot-icon');
             if (isActive) {
@@ -721,19 +771,59 @@
             }
         });
 
+        const statusElement = widget.querySelector('.meta-chat-status');
+
+        function playChime(sender) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                if (sender === 'user') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(450, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.02, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.08);
+                } else {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.06); // E5
+                    gain.gain.setValueAtTime(0.03, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.15);
+                }
+            } catch (e) {}
+        }
+
         function handleSendMessage(text) {
             const query = text || inputField.value.trim();
             if (!query) return;
 
             inputField.value = '';
             appendMessage(query, 'user');
+            playChime('user');
+            
             const typingIndicator = showTypingIndicator();
+            if (statusElement) {
+                statusElement.className = 'meta-chat-status typing';
+                statusElement.textContent = 'Dasa AI is typing...';
+            }
 
             setTimeout(() => {
                 typingIndicator.remove();
+                if (statusElement) {
+                    statusElement.className = 'meta-chat-status';
+                    statusElement.textContent = "Sanjaya's Assistant • Online";
+                }
                 const response = generateRAGResponse(query);
                 appendMessage(response, 'bot');
-            }, 500);
+                playChime('bot');
+            }, 750);
         }
 
         sendBtn.addEventListener('click', () => handleSendMessage());
