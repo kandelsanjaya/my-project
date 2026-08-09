@@ -64,6 +64,12 @@ class Certificate(models.Model):
     provider = models.CharField(max_length=150, blank=True)
     date_text = models.CharField(max_length=80, blank=True)
     image = models.ImageField(upload_to="certificates/")
+    # Static image path for production (used with {% static %})
+    @property
+    def static_image(self):
+        """Path relative to STATICFILES_DIRS for this certificate image."""
+        filename = self.image.name.split('/')[-1]
+        return f'core/images/certificates/{filename}'
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
@@ -84,6 +90,12 @@ class Project(models.Model):
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default="web")
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to="projects/", blank=True, null=True)
+    @property
+    def static_image(self):
+        if not self.image:
+            return None
+        filename = self.image.name.split('/')[-1]
+        return f'core/images/projects/{filename}'
     live_url = models.URLField(blank=True)
     is_private = models.BooleanField(default=False)
     features = models.CharField(max_length=400, blank=True, help_text="Comma-separated, shown with check icons")

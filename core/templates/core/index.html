@@ -550,7 +550,7 @@
         <div class="hero-image">
           <div class="image-container">
             <img
-              src="{% if site.profile_photo %}{{ site.profile_photo.url }}{% else %}{% static 'core/images/sanjaya.jpg' %}{% endif %}"
+              src="{% static 'core/images/me_good.jpg' %}"
               alt="Sanjaya Kandel profile photo" class="profile-image"
               onerror="this.onerror=null;this.style.opacity='0';" />
             <div class="floating-badge badge-1"><i class="fas fa-code"></i><span>Full Stack</span></div>
@@ -725,13 +725,13 @@
             style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width: 800px; margin: 0 auto;">
             {% for cert in certificates %}
             <div class="certificate-photo-card fade-up delay-{{ forloop.counter }}">
-              <div class="cert-image-container">
-                <img src="{{ cert.image.url }}" alt="Certificate: {{ cert.title }}" loading="lazy" class="cert-image" />
+               <div class="cert-image-container">
+                <img src="{% static cert.static_image %}" alt="Certificate: {{ cert.title }}" loading="lazy" class="cert-image" />
                 <div class="cert-actions">
-                  <button class="cert-action-btn view-btn" data-cert="{{ cert.image.url }}" title="View Certificate">
+                  <button class="cert-action-btn view-btn" data-cert="{% static cert.static_image %}" title="View Certificate">
                     <i class="fas fa-eye"></i>
                   </button>
-                  <button class="cert-action-btn download-btn" data-cert="{{ cert.image.url }}"
+                  <button class="cert-action-btn download-btn" data-cert="{% static cert.static_image %}"
                     data-name="{{ cert.title|slugify }}.jpg" title="Download Certificate">
                     <i class="fas fa-download"></i>
                   </button>
@@ -765,7 +765,7 @@
               aria-label="Open {{ project.title }} project">
               <div class="project-image">
                 {% if project.image %}
-                <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }} project" loading="lazy"
+                <img src="{% static project.static_image %}" alt="Screenshot of {{ project.title }} project" loading="lazy"
                   onerror="this.src='{% static "core/images/logo.png" %}';this.style.objectFit='contain';this.style.padding='30px'" />
                 {% else %}
                 <img src="{% static 'core/images/logo.png' %}" alt="{{ project.title }}" style="object-fit:contain;padding:30px" />
@@ -819,8 +819,8 @@
             <div class="design-card fade-up delay-{{ forloop.counter }}">
               <div class="design-card-inner">
                 <div class="design-image-wrapper">
-                  <img src="{{ design.image.url }}" alt="{{ design.title }} design preview"
-                    class="design-lightbox-trigger design-preview-image" data-design-image="{{ design.image.url }}"
+                  <img src="{% static design.static_image %}" alt="{{ design.title }} design preview"
+                    class="design-lightbox-trigger design-preview-image" data-design-image="{% static design.static_image %}"
                     role="button" tabindex="0" aria-label="Open {{ design.title }} design preview" loading="lazy" />
                   <div class="design-overlay">
                     <div class="design-info">

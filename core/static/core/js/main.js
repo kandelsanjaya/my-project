@@ -28,14 +28,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!isScrolling && !isNavigating) {
             window.requestAnimationFrame(function () {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const heroHeight = window.innerHeight * 0.5; // Threshold to hide top navbar
+                const heroHeight = window.innerHeight * 0.9; // Hide past first page (90vh)
 
                 if (scrollTop > heroHeight) {
-                    // Scrolled past hero section - hide navbar completely
+                    // Scrolled past first page - hide navbar completely (translateY out of view, keep X centered)
                     navbar.style.transform = 'translateX(-50%) translateY(-150%)';
                     navbar.style.transition = 'transform 0.35s ease';
                 } else {
-                    // In hero section - show navbar centered
+                    // On first page - show navbar centered
                     navbar.style.transform = 'translateX(-50%) translateY(0)';
                     navbar.style.transition = 'transform 0.35s ease';
                 }
