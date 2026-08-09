@@ -1,0 +1,370 @@
+// Simple Contact Section JavaScript
+document.addEventListener('DOMContentLoaded', function () {
+    initEmailJS();
+    initContactForm();
+    initContactEffects();
+    initFormValidation();
+});
+
+// Initialize EmailJS
+function initEmailJS() {
+    // You need to replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+    // Sign up at https://www.emailjs.com/ and get your keys
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init('rBq5nDmnXR8nmiqju'); // Replace with your EmailJS public key
+    }
+}
+
+// Contact Form Functionality  
+function initContactForm() {
+    const contactForm = document.querySelector('.contact-form');
+
+    if (!contactForm) return;
+
+    contactForm.addEventListener('submit', function (e) {
+        // Validate on the client first; if invalid, stop the native submit.
+        if (!validateForm()) {
+            e.preventDefault();
+            return;
+        }
+
+        // Valid — show the loading state and let the form submit natively
+        // to the Django "contact_submit" view (see form's action attribute).
+        // The Django view saves the message and redirects back with a
+        // success/error banner rendered server-side.
+        showLoadingState();
+    });
+}
+
+// Form Validation
+function validateForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    let isValid = true;
+
+    // Clear previous errors
+    clearErrors();
+
+    // Validate name
+    if (!name) {
+        showFieldError('name', 'Please enter your name');
+        isValid = false;
+    } else if (name.length < 2) {
+        showFieldError('name', 'Name must be at least 2 characters');
+        isValid = false;
+    } else {
+        showFieldValid('name');
+    }
+
+    // Validate email
+    if (!email) {
+        showFieldError('email', 'Please enter your email address');
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        showFieldError('email', 'Please enter a valid email address');
+        isValid = false;
+    } else {
+        showFieldValid('email');
+    }
+
+    // Validate message
+    if (!message) {
+        showFieldError('message', 'Please enter your message');
+        isValid = false;
+    } else if (message.length < 5) {
+        showFieldError('message', 'Message must be at least 5 characters');
+        isValid = false;
+    } else {
+        showFieldValid('message');
+    }
+
+    return isValid;
+}
+
+// Email validation
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Show field error
+function showFieldError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    const formGroup = field.closest('.form-group');
+    const errorSpan = formGroup.querySelector('.form-error');
+
+    formGroup.classList.add('invalid');
+    formGroup.classList.remove('valid');
+    if (errorSpan) {
+        errorSpan.textContent = message;
+    }
+}
+
+// Show field valid
+function showFieldValid(fieldId) {
+    const field = document.getElementById(fieldId);
+    const formGroup = field.closest('.form-group');
+
+    formGroup.classList.add('valid');
+    formGroup.classList.remove('invalid');
+}
+
+// Clear all errors
+function clearErrors() {
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach(group => {
+        group.classList.remove('invalid', 'valid');
+        const errorSpan = group.querySelector('.form-error');
+        if (errorSpan) {
+            errorSpan.textContent = '';
+        }
+    });
+}
+
+// Loading state management
+function showLoadingState() {
+    const submitBtn = document.querySelector('.form-submit');
+    if (submitBtn) {
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+    }
+}
+
+function hideLoadingState() {
+    const submitBtn = document.querySelector('.form-submit');
+    if (submitBtn) {
+        submitBtn.classList.remove('loading', 'success');
+        submitBtn.disabled = false;
+    }
+}
+
+function showSuccessState() {
+    const submitBtn = document.querySelector('.form-submit');
+    if (submitBtn) {
+        submitBtn.classList.remove('loading');
+        submitBtn.classList.add('success');
+    }
+}
+
+// Contact effects and animations
+function initContactEffects() {
+    // Form input focus effects
+    const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
+
+    formInputs.forEach(input => {
+        input.addEventListener('focus', function () {
+            this.parentElement.classList.add('focused');
+        });
+
+        input.addEventListener('blur', function () {
+            if (!this.value) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+
+        // Check if input has value on load
+        if (input.value) {
+            input.parentElement.classList.add('focused');
+        }
+    });
+
+    // Contact card hover effects  
+    const contactCards = document.querySelectorAll('.contact-card');
+    contactCards.forEach(card => {
+        card.addEventListener('mouseenter', function () {
+            this.style.transform = 'translateY(-5px)';
+        });
+
+        card.addEventListener('mouseleave', function () {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Profile image hover effect
+    const profileImage = document.querySelector('.profile-image');
+    if (profileImage) {
+        profileImage.addEventListener('mouseenter', function () {
+            this.style.transform = 'scale(1.05)';
+        });
+
+        profileImage.addEventListener('mouseleave', function () {
+            this.style.transform = 'scale(1)';
+        });
+    }
+}
+
+// Real-time form validation
+function initFormValidation() {
+    const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
+
+    formInputs.forEach(input => {
+        input.addEventListener('blur', function () {
+            validateSingleField(this);
+        });
+
+        input.addEventListener('input', function () {
+            // Clear error state on input
+            const formGroup = this.closest('.form-group');
+            formGroup.classList.remove('invalid');
+        });
+    });
+}
+
+// Validate single field for real-time validation
+function validateSingleField(field) {
+    const value = field.value.trim();
+    const fieldId = field.id;
+
+    switch (fieldId) {
+        case 'name':
+            if (!value) {
+                showFieldError('name', 'Please enter your name');
+            } else if (value.length < 2) {
+                showFieldError('name', 'Name must be at least 2 characters');
+            } else {
+                showFieldValid('name');
+            }
+            break;
+
+        case 'email':
+            if (!value) {
+                showFieldError('email', 'Please enter your email address');
+            } else if (!isValidEmail(value)) {
+                showFieldError('email', 'Please enter a valid email address');
+            } else {
+                showFieldValid('email');
+            }
+            break;
+
+        case 'message':
+            if (!value) {
+                showFieldError('message', 'Please enter your message');
+            } else if (value.length < 5) {
+                showFieldError('message', 'Message must be at least 5 characters');
+            } else {
+                showFieldValid('message');
+            }
+            break;
+    }
+}
+
+// Simple notification system
+function showNotification(message, type = 'info') {
+    // Remove existing notification
+    const existing = document.querySelector('.notification');
+    if (existing) {
+        existing.remove();
+    }
+
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+
+    const icon = type === 'success' ? 'fa-check-circle' :
+        type === 'error' ? 'fa-exclamation-circle' :
+            'fa-info-circle';
+
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas ${icon}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+
+    // Style notification
+    const bgColor = type === 'success' ? 'var(--brand-color)' :
+        type === 'error' ? '#ff4757' :
+            '#3498db';
+
+    // Check for dark theme and adjust text color for better contrast
+    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = (type === 'success' && isDarkTheme) ? 'black' : 'white';
+
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${bgColor};
+        color: ${textColor};
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 350px;
+        font-size: 14px;
+        font-weight: 500;
+    `;
+
+    // Add to body
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Auto remove
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 300);
+        }
+    }, 4000);
+}
+
+// Auto-resize textarea
+document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('message');
+    if (textarea) {
+        textarea.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    }
+});
+
+// CSS for notifications and form states
+const additionalCSS = `
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-content i {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.form-group.focused label {
+    color: var(--brand-color);
+}
+
+.form-group input:valid,
+.form-group textarea:valid {
+    border-color: var(--brand-color);
+}
+
+.form-group input:invalid:not(:placeholder-shown),
+.form-group textarea:invalid:not(:placeholder-shown) {
+    border-color: #ff4757;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+`;
+
+// Add CSS to head
+const styleSheet = document.createElement('style');
+styleSheet.textContent = additionalCSS;
+document.head.appendChild(styleSheet);

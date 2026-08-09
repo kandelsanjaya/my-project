@@ -1,0 +1,201 @@
+/* =========================================================
+   SCROLL-TRIGGERED ANIMATIONS
+   Used by IntersectionObserver in main.js — adds `.fade-in`
+   when the element enters the viewport.
+   ========================================================= */
+
+/* ── Base hidden state ───────────────────────────────────── */
+.fade-section,
+.fade-up,
+.fade-left,
+.fade-right,
+.scale-in {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+/* Directional starting positions */
+.fade-up    { transform: translateY(40px); }
+.fade-left  { transform: translateX(-50px); }
+.fade-right { transform: translateX(50px); }
+.scale-in   { transform: scale(0.88); }
+.fade-section { transform: translateY(20px); }
+
+/* ── Revealed state (class added by JS observer) ─────────── */
+.fade-section.fade-in,
+.fade-up.fade-in,
+.fade-left.fade-in,
+.fade-right.fade-in,
+.scale-in.fade-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Stagger delay helpers ───────────────────────────────── */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.35s; }
+.delay-4 { transition-delay: 0.5s; }
+.delay-5 { transition-delay: 0.65s; }
+
+/* ── Named @keyframes used across the site ───────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(30px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes ripple {
+  to { transform: scale(2); opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 var(--shadow, rgba(0,179,0,.3)); }
+  50%       { transform: scale(1.05); box-shadow: 0 0 0 10px transparent; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px  var(--shadow, rgba(0,179,0,.3)); }
+  50%       { box-shadow: 0 0 20px var(--shadow, rgba(0,179,0,.4)),
+                          0 0 30px var(--shadow, rgba(0,179,0,.2)); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── Loading screen letters ──────────────────────────────── */
+@keyframes letterPop {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.8); }
+  60%  { transform: translateY(-4px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.loading-text .letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letterPop 0.6s ease forwards;
+}
+
+/* ── Loading progress bar pulse ─────────────────────────── */
+@keyframes progressPulse {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Floating badges on hero image ──────────────────────── */
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.floating-badge {
+  animation: floatBadge 3s ease-in-out infinite;
+}
+.floating-badge.badge-2 { animation-delay: 1s; }
+.floating-badge.badge-3 { animation-delay: 2s; }
+
+/* ── Typing cursor blink ─────────────────────────────────── */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.typing-cursor {
+  animation: cursorBlink 0.8s step-end infinite;
+}
+
+/* ── Dots in loading status text ────────────────────────── */
+@keyframes dotFade {
+  0%, 80%, 100% { opacity: 0; }
+  40%            { opacity: 1; }
+}
+
+.loading-status .dot:nth-child(1) { animation: dotFade 1.4s 0.0s infinite; }
+.loading-status .dot:nth-child(2) { animation: dotFade 1.4s 0.2s infinite; }
+.loading-status .dot:nth-child(3) { animation: dotFade 1.4s 0.4s infinite; }
+
+/* ── Wave animation on loading screen ───────────────────── */
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.5) translateX(0); }
+  50%       { transform: scaleY(1.0) translateX(-5%); }
+}
+
+.wave { animation: wave 2s ease-in-out infinite; }
+.wave.wave2 { animation-delay: 0.3s; }
+.wave.wave3 { animation-delay: 0.6s; }
+
+/* ── Particle float on loading screen ───────────────────── */
+@keyframes particleFloat {
+  0%   { transform: translateY(0)   scale(1);   opacity: 0.7; }
+  50%  { transform: translateY(-20px) scale(1.1); opacity: 1; }
+  100% { transform: translateY(0)   scale(1);   opacity: 0.7; }
+}
+
+.loading-particles .particle {
+  animation: particleFloat 2s ease-in-out infinite;
+}
+.loading-particles .particle:nth-child(2) { animation-delay: 0.4s; }
+.loading-particles .particle:nth-child(3) { animation-delay: 0.8s; }
+.loading-particles .particle:nth-child(4) { animation-delay: 1.2s; }
+.loading-particles .particle:nth-child(5) { animation-delay: 1.6s; }
+
+/* ── Active nav-link glow ────────────────────────────────── */
+.nav-link.active { animation: glow 2s ease-in-out infinite; }
+
+/* ── Hire / CTA button glow on hover ────────────────────── */
+.hire-btn:hover  { animation: glow 1s ease-in-out infinite; }
+
+/* ── Respect user motion preference ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .fade-section,
+  .fade-up,
+  .fade-left,
+  .fade-right,
+  .scale-in {
+    opacity: 1;
+    transform: none;
+  }
+}
