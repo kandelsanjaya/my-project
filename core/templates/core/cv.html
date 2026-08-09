@@ -1,0 +1,1002 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.hero_name|default:"Sanjaya Kandel" }} — CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/png" href="{% static 'core/images/favicon.png' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'core/css/chatbot.css' %}?v=1.8" />
+  <link rel="stylesheet" href="{% static 'core/css/loader.css' %}?v=1.9" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --blue-deep:  #0f172a;
+      --blue-mid:   #1e3a8a;
+      --blue-brand: #2563eb;
+      --blue-light: #93c5fd;
+      --blue-pale:  #e0e7ff;
+      --blue-bg:    #f0f4ff;
+      --surface:    #ffffff;
+      --surface-2:  #f8fafc;
+      --border:     #e2e8f0;
+      --text-1:     #0f172a;
+      --text-2:     #334155;
+      --text-3:     #64748b;
+      --accent:     #2563eb;
+      --ff-display: 'Playfair Display', Georgia, serif;
+      --ff-body:    'Inter', 'Segoe UI', sans-serif;
+    }
+    body {
+      background: var(--blue-bg);
+      padding: 32px 20px 100px;
+      color: var(--text-2);
+      font-family: var(--ff-body);
+      min-height: 100vh;
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    .cursor-dot {
+      width: 10px; height: 10px;
+      background: radial-gradient(circle, #ffd700, #ff8c00);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s ease;
+      box-shadow: 0 0 8px 3px rgba(255,215,0,0.6);
+    }
+    .cursor-ring {
+      width: 30px; height: 30px;
+      border: 2px solid rgba(255,215,0,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: left 0.12s ease, top 0.12s ease, width 0.2s ease, height 0.2s ease;
+    }
+
+    /* ===== LOADING SCREEN ===== */
+    #loading-screen {
+      position: fixed; inset: 0;
+      background: var(--blue-deep);
+      z-index: 99990;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loading-screen.hidden { opacity: 0; visibility: hidden; }
+    .loading-title { color: #fff; font-family: var(--ff-display); font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+    .loading-sub { color: var(--blue-light); font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: -20px; font-weight: 500; }
+
+    /* Eye loader */
+    #div1 { display: flex; align-items: center; justify-content: center; width: 100%; }
+    @keyframes animateHeight {
+      0%  { height: 0px; }
+      50% { height: 50px; }
+    }
+    #l, #m { width: 120px; height: 60px; position: relative; overflow: hidden; background: #000; border-radius: 0px 180px 0px 180px; animation: animateHeight 1s infinite alternate-reverse; margin: 28px; }
+    #m { border-radius: 180px 0px 180px 0px; }
+    .pupil, .pupl2, .pupil3, .pupil4, .p5 { overflow: hidden; width: 50px; height: 50px; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.15); }
+    .pupil { width: 60px; height: 60px; background: linear-gradient(rgb(255,105,105), rgb(129,249,129), rgb(96,96,255), #474747); }
+    .p5    { width: 42px; height: 42px; background: linear-gradient(rgb(252,71,71), rgb(70,249,70), rgb(63,63,254), #2f2f2f); }
+    .pupl2 { width: 25px; height: 25px; background: linear-gradient(rgb(255,2,2), rgb(0,255,0), rgb(0,0,255), #000); }
+    .pupil3 { width: 5px; height: 18px; }
+    .pupil4 { width: 18px; height: 3.5px; overflow: visible; }
+    .loader-spin { --ballcolor: #f2f2f2; width: 10px; height: 10px; left: -120px; border-radius: 50%; position: relative; color: var(--ballcolor); animation: shadowRolling 2s linear infinite; }
+    @keyframes shadowRolling {
+      0%   { box-shadow: 0px 0 #fff0,0px 0 #fff0,0px 0 #fff0,0px 0 #fff0; }
+      12%  { box-shadow: 100px 0 var(--ballcolor),0px 0 #fff0,0px 0 #fff0,0px 0 #fff0; }
+      25%  { box-shadow: 110px 0 var(--ballcolor),100px 0 var(--ballcolor),0px 0 #fff0,0px 0 #fff0; }
+      36%  { box-shadow: 120px 0 var(--ballcolor),110px 0 var(--ballcolor),100px 0 var(--ballcolor),0px 0 #fff0; }
+      50%  { box-shadow: 130px 0 var(--ballcolor),120px 0 var(--ballcolor),110px 0 var(--ballcolor),100px 0 var(--ballcolor); }
+      62%  { box-shadow: 200px 0 #fff0,130px 0 var(--ballcolor),120px 0 var(--ballcolor),110px 0 var(--ballcolor); }
+      75%  { box-shadow: 200px 0 #fff0,200px 0 #fff0,130px 0 var(--ballcolor),120px 0 var(--ballcolor); }
+      87%  { box-shadow: 200px 0 #fff0,200px 0 #fff0,200px 0 #fff0,130px 0 var(--ballcolor); }
+      100% { box-shadow: 200px 0 #fff0,200px 0 #fff0,200px 0 #fff0,200px 0 #fff0; }
+    }
+
+    /* ===== CV CONTAINER ===== */
+    .cv-container {
+      max-width: 1140px; margin: 0 auto;
+      background: var(--surface);
+      border-radius: 24px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(15,23,42,0.14), 0 4px 16px rgba(15,23,42,0.06);
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+    }
+    .cv-container.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e3a8a 100%);
+      color: #fff; padding: 48px 52px;
+      position: relative; overflow: hidden;
+    }
+    .header::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,0.25), transparent 70%);
+      pointer-events: none;
+    }
+    .header-inner { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; position: relative; z-index: 1; }
+
+    /* Profile photo */
+    .profile-photo {
+      width: 180px; height: 180px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 0 0 5px rgba(255,255,255,0.12), 0 0 48px rgba(37,99,235,0.5);
+      animation: float 4.5s ease-in-out infinite;
+      position: relative; background: var(--blue-mid);
+    }
+    .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-display); font-size: 3rem; font-weight: 700;
+      color: rgba(255,255,255,0.6);
+      background: linear-gradient(135deg, #1e3a8a, #1e293b);
+    }
+    .profile-photo:not(.no-photo) .photo-placeholder { display: none; }
+    .profile-photo.no-photo img { display: none; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+    .profile-info { flex: 1; min-width: 280px; }
+    .name-block { margin-bottom: 14px; }
+    .name-block h1 { font-family: var(--ff-display); font-size: 2.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; color: #fff; margin-bottom: 6px; }
+    .title-tag { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--blue-light); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; padding: 4px 14px; border-radius: 30px; }
+    .bio { font-size: 0.93rem; line-height: 1.75; color: rgba(255,255,255,0.78); margin-bottom: 16px; max-width: 540px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #e0e7ff; padding: 4px 12px; border-radius: 30px; font-size: 12px; font-weight: 600; backdrop-filter: blur(4px); transition: background 0.2s; }
+    .badge:hover { background: rgba(255,255,255,0.18); }
+    .header-links { display: flex; flex-wrap: wrap; gap: 14px; }
+    .header-link { font-size: 0.82rem; color: var(--blue-light); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: color 0.2s; }
+    .header-link:hover { color: #fff; }
+
+    /* ===== BODY GRID ===== */
+    .body-grid { display: grid; grid-template-columns: 310px 1fr; }
+    .sidebar { background: var(--surface-2); padding: 36px 30px; border-right: 1px solid var(--border); }
+    .main { padding: 36px 40px; }
+
+    /* ===== SECTION ===== */
+    .section { margin-bottom: 36px; }
+    .section-title { font-family: var(--ff-display); font-size: 1rem; font-weight: 700; color: var(--blue-brand); text-transform: uppercase; letter-spacing: 0.1em; padding-bottom: 8px; border-bottom: 2px solid var(--blue-pale); margin-bottom: 18px; position: relative; }
+    .section-title::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 32px; height: 2px; background: var(--blue-brand); }
+
+    /* ===== SKILLS ===== */
+    .skills-group { margin-bottom: 14px; }
+    .skill-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); font-weight: 600; margin-bottom: 6px; }
+    .skill { background: var(--blue-pale); color: var(--blue-mid); padding: 5px 12px; border-radius: 20px; display: inline-block; margin: 3px 3px 3px 0; font-size: 0.78rem; font-weight: 600; transition: background 0.2s, color 0.2s, transform 0.15s; cursor: default; }
+    .skill:hover { background: var(--blue-brand); color: #fff; transform: translateY(-1px); }
+
+    /* Skill bars for core skills */
+    .skill-bar-wrap { margin-bottom: 12px; }
+    .skill-bar-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .skill-bar-name { font-size: 0.82rem; font-weight: 600; color: var(--text-1); }
+    .skill-bar-pct { font-size: 0.72rem; color: var(--blue-brand); font-weight: 700; }
+    .skill-bar-track { height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: linear-gradient(90deg, var(--blue-brand), var(--blue-light)); border-radius: 6px; transition: width 1.5s ease; }
+
+    /* ===== EDUCATION ===== */
+    .edu-item { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .edu-year { font-size: 0.72rem; font-weight: 700; color: var(--blue-brand); background: var(--blue-pale); padding: 3px 8px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .edu-body { display: flex; flex-direction: column; gap: 2px; }
+    .edu-body strong { font-size: 0.85rem; color: var(--text-1); font-weight: 700; }
+    .edu-sub { font-size: 0.75rem; color: var(--text-3); }
+
+    /* ===== LANGUAGES ===== */
+    .lang-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 0.85rem; font-weight: 500; color: var(--text-1); }
+    .lang-item span:first-child { width: 60px; flex-shrink: 0; }
+    .lang-bar { flex: 1; height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; }
+    .lang-fill { height: 100%; background: linear-gradient(90deg, var(--blue-brand), var(--blue-light)); border-radius: 6px; transition: width 1.5s ease; }
+
+    /* ===== INTERESTS ===== */
+    .interest-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .interest { font-size: 0.78rem; padding: 5px 11px; border-radius: 20px; background: #fff; border: 1px solid var(--border); color: var(--text-2); font-weight: 500; transition: border-color 0.2s, color 0.2s; }
+    .interest:hover { border-color: var(--blue-brand); color: var(--blue-brand); }
+
+    /* ===== OBJECTIVE ===== */
+    .objective-text { font-size: 0.93rem; line-height: 1.8; color: var(--text-2); padding: 16px 20px; background: var(--blue-pale); border-left: 4px solid var(--blue-brand); border-radius: 0 10px 10px 0; }
+
+    /* ===== PROJECTS ===== */
+    .project { background: var(--surface-2); border-left: 4px solid var(--blue-brand); padding: 16px 18px; margin-bottom: 14px; border-radius: 0 10px 10px 0; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s; }
+    .project:hover { transform: translateX(5px); box-shadow: 4px 4px 20px rgba(37,99,235,0.1); border-color: #1d4ed8; }
+    .project-header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+    .project-header h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-1); }
+    .project-tag { font-size: 0.7rem; background: var(--blue-pale); color: var(--blue-mid); padding: 2px 9px; border-radius: 20px; font-weight: 600; }
+    .project p { font-size: 0.85rem; line-height: 1.65; color: var(--text-2); }
+    .project-link { display: inline-block; margin-top: 8px; font-size: 0.78rem; color: var(--blue-brand); text-decoration: none; font-weight: 600; }
+    .project-link:hover { text-decoration: underline; }
+
+    /* ===== EXPERIENCE ===== */
+    .exp-item { padding: 18px 20px; background: var(--surface-2); border-radius: 12px; border: 1px solid var(--border); }
+    .exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+    .exp-header h4 { font-size: 0.97rem; font-weight: 700; color: var(--text-1); margin-bottom: 3px; }
+    .exp-org { font-size: 0.8rem; color: var(--blue-brand); font-weight: 600; }
+    .exp-date { font-size: 0.75rem; color: var(--text-3); font-weight: 600; white-space: nowrap; background: var(--blue-pale); padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+    .exp-list { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+    .exp-list li { font-size: 0.85rem; line-height: 1.6; color: var(--text-2); }
+
+    /* ===== ARTS GRID ===== */
+    .arts-grid { display: flex; flex-direction: column; gap: 12px; }
+    .art-card { display: flex; align-items: flex-start; gap: 16px; padding: 14px 16px; background: var(--surface-2); border-radius: 12px; border: 1px solid var(--border); transition: border-color 0.2s, transform 0.2s; }
+    .art-card:hover { border-color: var(--blue-brand); transform: translateY(-2px); }
+    .art-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+    .art-card strong { display: block; font-size: 0.88rem; font-weight: 700; color: var(--text-1); margin-bottom: 3px; }
+    .art-card p { font-size: 0.82rem; line-height: 1.55; color: var(--text-3); }
+
+    /* ===== DOWNLOAD BUTTON ===== */
+    .download-wrap { position: fixed; bottom: 28px; right: 28px; z-index: 9000; }
+    .dl-container { display: flex; justify-content: center; align-items: center; }
+    .dl-label { background-color: transparent; border: 2px solid rgb(91,91,240); display: flex; align-items: center; border-radius: 50px; width: 160px; cursor: pointer; transition: all 0.4s ease; padding: 5px; position: relative; }
+    .dl-label::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; right: 0; background-color: #6a00f5; width: 8px; height: 8px; transition: all 0.4s ease; border-radius: 100%; margin: auto; opacity: 0; visibility: hidden; }
+    .dl-label .dl-input { display: none; }
+    .dl-label .dl-title { font-size: 17px; color: var(--text-1); font-weight: bold; transition: all 0.4s ease; position: absolute; right: 18px; bottom: 14px; }
+    .dl-label .dl-title:last-child { opacity: 0; visibility: hidden; }
+    .dl-label .dl-circle { height: 45px; width: 45px; border-radius: 50%; background-color: rgb(91,91,240); display: flex; justify-content: center; align-items: center; transition: all 0.4s ease; position: relative; box-shadow: 0 0 0 0 #fff; overflow: hidden; }
+    .dl-label .dl-circle .dl-icon { color: #fff; width: 30px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); transition: all 0.4s ease; }
+    .dl-label .dl-circle .dl-square { aspect-ratio: 1; width: 15px; border-radius: 2px; background-color: #fff; opacity: 0; visibility: hidden; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); transition: all 0.4s ease; }
+    .dl-label .dl-circle::before { content: ""; position: absolute; left: 0; top: 0; background-color: #3333a8; width: 100%; height: 0; transition: all 0.4s ease; }
+    .dl-label:has(.dl-input:checked) { width: 57px; animation: dl-installed 0.4s ease 3.5s forwards; }
+    .dl-label:has(.dl-input:checked) .dl-circle { background-color: #3333a8; }
+    .dl-label:has(.dl-input:checked) .dl-circle::before { height: 100%; transition: all 3s ease; }
+    .dl-label:has(.dl-input:checked) .dl-icon { top: -50px; }
+    .dl-label:has(.dl-input:checked) .dl-square { opacity: 1; visibility: visible; }
+    .dl-label:has(.dl-input:checked)::before { opacity: 1; visibility: visible; animation: dl-spread 3s ease forwards; }
+    .dl-label:has(.dl-input:checked) .dl-title:first-of-type { opacity: 0; visibility: hidden; }
+    .dl-label:has(.dl-input:checked) .dl-title:last-child { opacity: 1; visibility: visible; bottom: 14px; color: #fff; }
+    @keyframes dl-spread { 0% { width: 8px; height: 8px; opacity: 1; visibility: visible; } 100% { width: 200%; height: 200%; opacity: 0.3; visibility: visible; } }
+    @keyframes dl-installed { 0% { width: 57px; } 100% { width: 160px; } }
+
+    /* ===== PRINT ===== */
+    @media print {
+      body { background: white; padding: 0; }
+      #loading-screen, .cursor-dot, .cursor-ring, .download-wrap { display: none !important; }
+      .cv-container { box-shadow: none; border-radius: 0; opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .header { padding: 32px 24px; }
+      .header-inner { gap: 24px; }
+      .profile-photo { width: 120px; height: 120px; }
+      .name-block h1 { font-size: 2rem; }
+      .body-grid { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
+      .main { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Canvas for Stars & Meteors -->
+  <canvas id="bgCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none;"></canvas>
+  <script>
+    (function() {
+        const canvas = document.getElementById('bgCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+        class Star {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5;
+                this.blinkSpeed = 0.01 + Math.random() * 0.02;
+                this.alpha = Math.random();
+            }
+            draw() {
+                this.alpha += this.blinkSpeed;
+                if (this.alpha > 1 || this.alpha < 0) {
+                    this.blinkSpeed = -this.blinkSpeed;
+                }
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.1, this.alpha)})`;
+                ctx.fill();
+            }
+        }
+        class Firefly {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = 1 + Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.alpha = Math.random();
+                this.fadeSpeed = 0.005 + Math.random() * 0.01;
+                this.color = Math.random() > 0.5 ? 'rgba(0, 255, 136, ' : 'rgba(0, 198, 255, ';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > width) this.speedX *= -1;
+                if (this.y < 0 || this.y > height) this.speedY *= -1;
+                this.alpha += this.fadeSpeed;
+                if (this.alpha > 0.8 || this.alpha < 0.2) {
+                    this.fadeSpeed = -this.fadeSpeed;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.alpha + ')';
+                ctx.fill();
+            }
+        }
+        class Meteor {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width * 1.5;
+                this.y = -Math.random() * 100;
+                this.length = 80 + Math.random() * 120;
+                this.speed = 12 + Math.random() * 10;
+                this.angle = Math.PI * 0.75 + (Math.random() - 0.5) * 0.1;
+                this.alpha = 1;
+                this.active = Math.random() > 0.98;
+            }
+            update() {
+                if (!this.active) {
+                    if (Math.random() > 0.997) this.active = true;
+                    return;
+                }
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.alpha -= 0.015;
+                if (this.x < -200 || this.y > height + 200 || this.alpha <= 0) {
+                    this.reset();
+                }
+            }
+            draw() {
+                if (!this.active) return;
+                ctx.beginPath();
+                const grad = ctx.createLinearGradient(
+                    this.x, this.y,
+                    this.x - Math.cos(this.angle) * this.length,
+                    this.y - Math.sin(this.angle) * this.length
+                );
+                grad.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`);
+                grad.addColorStop(0.5, `rgba(99, 102, 241, ${this.alpha * 0.5})`);
+                grad.addColorStop(1, 'rgba(99, 102, 241, 0)');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = 1.5;
+                ctx.lineCap = 'round';
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(
+                    this.x - Math.cos(this.angle) * this.length,
+                    this.y - Math.sin(this.angle) * this.length
+                );
+                ctx.stroke();
+            }
+        }
+        const stars = Array.from({ length: 80 }, () => new Star());
+        const fireflies = Array.from({ length: 45 }, () => new Firefly());
+        const meteors = Array.from({ length: 4 }, () => new Meteor());
+        function loop() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(s => s.draw());
+            fireflies.forEach(f => { f.update(); f.draw(); });
+            meteors.forEach(m => { m.update(); m.draw(); });
+            requestAnimationFrame(loop);
+        }
+        loop();
+    })();
+  </script>
+
+  <!-- Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <h1 class="welcome-title">WELCOME TO MY CV</h1>
+      <div class="uiverse-svg-container">
+        <svg width="280" height="280" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1.5" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Central Glowing Sun -->
+          <circle cx="50" cy="50" r="6" fill="#00ff88" filter="url(#glow)">
+            <animate attributeName="r" values="5.5;6.5;5.5" dur="2s" repeatCount="indefinite" />
+          </circle>
+
+          <!-- Orbit 1 (0 deg - Indigo/Purple) -->
+          <g transform="rotate(0 50 50)">
+            <circle fill="#9000ff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#8400f5" r="1.65" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.05s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#7800eb" r="1.5" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.1s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#6c00d0" r="1.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.15s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#6000b5" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.2s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#5400a0" r="1.05" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.25s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#480090" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.3s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#3c0078" r="0.75" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.35s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#300060" r="0.55" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#200040" r="0.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 2 (36 deg - Cyan/Blue) -->
+          <g transform="rotate(36 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.2s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#c0f8ff" r="1.65" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.25s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00f0ff" r="1.5" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.3s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00d8f0" r="1.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.35s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00c0e0" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00a8cc" r="1.05" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#0090b8" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.5s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#0078a0" r="0.75" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.55s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#006088" r="0.55" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.6s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#004866" r="0.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.65s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 3 (72 deg - Green/Neon) -->
+          <g transform="rotate(72 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#afffee" r="1.65" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00ffcc" r="1.5" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.5s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00f0b0" r="1.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.55s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00e090" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.6s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00cc78" r="1.05" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.65s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00b860" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.7s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00a048" r="0.75" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.75s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#008830" r="0.55" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.8s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#006618" r="0.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.85s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 4 (108 deg - Gold/Orange) -->
+          <g transform="rotate(108 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.6s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#fff0a0" r="1.65" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.65s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffe000" r="1.5" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.7s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffc800" r="1.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.75s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffaa00" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.8s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff8c00" r="1.05" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.85s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff6e00" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.9s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff5000" r="0.75" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.95s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#e03000" r="0.55" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.0s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#b81800" r="0.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.05s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 5 (144 deg - Pink/Magenta) -->
+          <g transform="rotate(144 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.8s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffb0ff" r="1.65" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.85s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff00ff" r="1.5" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.9s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#e800d8" r="1.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.95s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#cc00b0" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.0s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#b00090" r="1.05" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.05s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#940070" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.1s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#780050" r="0.75" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.15s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#5c0038" r="0.55" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.2s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#400020" r="0.35" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-1.25s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+        </svg>
+      </div>
+      <div class="loading-percentage" id="loading-percentage-text">0%</div>
+      <div class="loading-bar">
+        <div class="loading-progress" id="loading-progress-bar" style="width: 0%;"></div>
+      </div>
+      <div class="loading-status">Loading CV...</div>
+    </div>
+  </div>
+
+  <!-- Download Button -->
+  <div class="download-wrap">
+    <div class="dl-container">
+      <label class="dl-label" id="dlLabel">
+        <input type="checkbox" class="dl-input" id="dlInput">
+        <div class="dl-circle">
+          <!-- Arrow icon -->
+          <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+          <div class="dl-square"></div>
+        </div>
+        <span class="dl-title">Download</span>
+        <span class="dl-title">Done ✓</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- CV -->
+  <div class="cv-container" id="resume">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="profile-photo">
+          <img src="{% static 'core/images/sanjaya_cv.jpg' %}" alt="{{ site.hero_name|default:'Sanjaya Kandel' }}">
+          <div class="photo-placeholder">SK</div>
+        </div>
+        <div class="profile-info">
+          <div class="name-block">
+            <h1>{{ site.hero_name|default:"Sanjaya Kandel" }}</h1>
+            <span class="title-tag">BSc. CSIT Student &amp; Full-Stack Developer</span>
+          </div>
+          <p class="bio">{{ site.hero_subtitle|default:"A tech-driven creator based in Bharatpur, Nepal — building modern web apps, AI-integrated systems, and sleek digital experiences. I blend strong engineering with sharp design sense, driven by curiosity and a love for making things that matter." }}</p>
+          <div class="badges">
+            <span class="badge">🌏 Full Stack Developer</span>
+            <span class="badge">🤖 AI Builder</span>
+            <span class="badge">🎨 UI/UX Designer</span>
+            <span class="badge">🎬 Video Editor</span>
+            <span class="badge">📐 Graphic Designer</span>
+            <span class="badge">🎸 Musician</span>
+          </div>
+          <div class="header-links">
+            <a href="https://www.kandelsanjaya.com.np" target="_blank" class="header-link">🌐 Website</a>
+            {% if site.github_url %}<a href="{{ site.github_url }}" target="_blank" class="header-link">🐙 GitHub</a>{% endif %}
+            {% if site.youtube_url %}<a href="{{ site.youtube_url }}" target="_blank" class="header-link">▶️ YouTube</a>{% endif %}
+            {% if site.tiktok_url %}<a href="{{ site.tiktok_url }}" target="_blank" class="header-link">🎵 TikTok</a>{% endif %}
+            <a href="mailto:{{ site.contact_email|default:'kandelsanjaya7@gmail.com' }}" class="header-link">✉️ {{ site.contact_email|default:"kandelsanjaya7@gmail.com" }}</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BODY -->
+    <div class="body-grid">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+
+        <section class="section">
+          <h2 class="section-title">Skills</h2>
+
+          {% if core_skills %}
+          <div class="skills-group">
+            <p class="skill-label">Core Technologies</p>
+            {% for skill in core_skills %}
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-row">
+                <span class="skill-bar-name">{{ skill.name }}</span>
+                <span class="skill-bar-pct">{{ skill.percentage }}%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: {{ skill.percentage }}%;"></div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="skills-group">
+            <p class="skill-label">Frontend</p>
+            <span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">JavaScript</span><span class="skill">React</span>
+          </div>
+          <div class="skills-group">
+            <p class="skill-label">Backend</p>
+            <span class="skill">Python</span><span class="skill">Django</span><span class="skill">Flask</span><span class="skill">Node.js</span>
+          </div>
+          {% endif %}
+
+          {% if tool_skills %}
+          <div class="skills-group">
+            <p class="skill-label">Tools &amp; Design</p>
+            {% for skill in tool_skills %}
+              <span class="skill">{{ skill.name }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="skills-group">
+            <p class="skill-label">Tools &amp; Design</p>
+            <span class="skill">Git / GitHub</span><span class="skill">Photoshop</span><span class="skill">Adobe XD</span><span class="skill">UI/UX Design</span><span class="skill">Video Editing</span><span class="skill">AI Tools</span>
+          </div>
+          {% endif %}
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Education</h2>
+          {% for edu in education %}
+          <div class="edu-item">
+            <div class="edu-year">{{ edu.period }}</div>
+            <div class="edu-body">
+              <strong>{{ edu.title }}</strong>
+              <span class="edu-sub">{{ edu.institution }}</span>
+            </div>
+          </div>
+          {% empty %}
+          <div class="edu-item">
+            <div class="edu-year">2023–Present</div>
+            <div class="edu-body"><strong>BSc. CSIT</strong><span class="edu-sub">4th Semester · Bharatpur, Nepal</span></div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-year">2023</div>
+            <div class="edu-body"><strong>12th — Science (10+2)</strong><span class="edu-sub">Janak Secondary School, Gaindakot</span></div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-year">2021</div>
+            <div class="edu-body"><strong>10th — SEE</strong><span class="edu-sub">Janak Secondary School, Gaindakot</span></div>
+          </div>
+          {% endfor %}
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Languages</h2>
+          <div class="lang-item"><span>English</span><div class="lang-bar"><div class="lang-fill" style="width:85%"></div></div></div>
+          <div class="lang-item"><span>Nepali</span><div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div></div>
+          <div class="lang-item"><span>Hindi</span><div class="lang-bar"><div class="lang-fill" style="width:75%"></div></div></div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Interests</h2>
+          <div class="interest-grid">
+            <span class="interest">🎵 Music</span>
+            <span class="interest">✍️ Writing</span>
+            <span class="interest">🎮 Gaming</span>
+            <span class="interest">📖 Reading</span>
+            <span class="interest">✈️ Travelling</span>
+            <span class="interest">🎬 Video Editing</span>
+            <span class="interest">🎸 Guitar</span>
+            <span class="interest">🥁 Madal</span>
+          </div>
+        </section>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main">
+
+        <section class="section">
+          <h2 class="section-title">Career Objective</h2>
+          <p class="objective-text">
+            To build innovative software products and contribute to impactful technology solutions while growing as a full-stack developer. I aim to merge clean engineering with thoughtful visual craft — creating digital experiences that are both technically excellent and beautifully designed.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Projects</h2>
+          {% for project in projects %}
+          <div class="project">
+            <div class="project-header">
+              <h4>{{ project.title }}</h4>
+              {% if project.category %}<span class="project-tag">{{ project.category }}</span>{% endif %}
+            </div>
+            <p>{{ project.description }}</p>
+            {% if project.live_url %}
+              <a href="{{ project.live_url }}" target="_blank" class="project-link">🔗 View Project →</a>
+            {% endif %}
+          </div>
+          {% empty %}
+          <div class="project">
+            <div class="project-header"><h4>Portfolio Website</h4><span class="project-tag">Django</span></div>
+            <p>Personal portfolio showcasing projects, skills, and professional work — built with Django, with integrated AI features for interactive experiences.</p>
+            <a href="https://www.kandelsanjaya.com.np" target="_blank" class="project-link">🔗 kandelsanjaya.com.np</a>
+          </div>
+          <div class="project">
+            <div class="project-header"><h4>Smart College ERP System</h4><span class="project-tag">Full Stack</span></div>
+            <p>Full-featured College ERP with role-based dashboards for Admin, Teacher, and Student — featuring SaaS-style dark/light theming and multi-role access control.</p>
+          </div>
+          <div class="project">
+            <div class="project-header"><h4>Edusphere AI</h4><span class="project-tag">AI</span></div>
+            <p>An AI-powered educational platform designed to optimize student learning workflows, featuring automated study guides, interactive AI chats, and personalized educational analytics.</p>
+            <a href="https://eduspheres.streamlit.app" target="_blank" class="project-link">🔗 eduspheres.streamlit.app</a>
+          </div>
+          {% endfor %}
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Experience</h2>
+          <div class="exp-item">
+            <div class="exp-header">
+              <div>
+                <h4>Founder &amp; Creative Lead</h4>
+                <div class="exp-org">DASA Studio</div>
+              </div>
+              <div class="exp-date">2023 — Present</div>
+            </div>
+            <ul class="exp-list">
+              <li>Founded and operate a creative agency specializing in graphic design and video production.</li>
+              <li>Designed social media branding, marketing materials, and visual identities for clients.</li>
+              <li>Produced video editing projects using professional-grade tools and workflows.</li>
+              <li>Built modern websites and portfolio solutions for clients from scratch.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Creative &amp; Artistic Pursuits</h2>
+          <div class="arts-grid">
+            <div class="art-card">
+              <div class="art-icon">✍️</div>
+              <div>
+                <strong>Creative Writing</strong>
+                <p>Writes poems, short stories, and dramatic scripts — exploring emotion through creative prose.</p>
+              </div>
+            </div>
+            <div class="art-card">
+              <div class="art-icon">🎸</div>
+              <div>
+                <strong>Music</strong>
+                <p>Sings and plays guitar, harmonium, and madal — trained in both classical and contemporary styles.</p>
+              </div>
+            </div>
+            <div class="art-card">
+              <div class="art-icon">🎬</div>
+              <div>
+                <strong>Video Production</strong>
+                <p>Occasionally creates YouTube videos — blending storytelling, editing, and digital production skills.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    // Function to download CV as PDF using html2pdf
+    function downloadPDF() {
+      const element = document.getElementById('resume');
+      const opt = {
+        margin:       [0.3, 0.3, 0.3, 0.3],
+        filename:     'Sanjaya_Kandel_CV.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
+    // === Loading screen ===
+    (function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const progressFill = document.getElementById('loading-progress-bar');
+      const percentageText = document.getElementById('loading-percentage-text');
+      const loadingStatus = document.querySelector('.loading-status');
+      
+      let progress = 0;
+      let speed = 2.0; 
+      let isLoaded = false;
+      
+      const loaderInterval = setInterval(() => {
+          if (isLoaded) {
+              progress += 5;
+          } else {
+              progress += (Math.random() * 2 + 0.5) * speed;
+          }
+          
+          if (progress >= 100) {
+              progress = 100;
+              clearInterval(loaderInterval);
+              if (progressFill) progressFill.style.width = '100%';
+              if (percentageText) percentageText.textContent = '100%';
+              if (loadingStatus) loadingStatus.textContent = 'Ready!';
+              
+              setTimeout(() => {
+                  loadingScreen.classList.add('hidden');
+                  document.getElementById('resume').classList.add('visible');
+                  
+                  // Check if download parameter exists in URL
+                  const urlParams = new URLSearchParams(window.location.search);
+                  if (urlParams.get('download') === 'true') {
+                    setTimeout(() => {
+                      const dlInput = document.getElementById('dlInput');
+                      if (dlInput) dlInput.checked = true;
+                      downloadPDF();
+                    }, 600);
+                  }
+              }, 350);
+          } else {
+              const roundedProgress = Math.floor(progress);
+              if (progressFill) progressFill.style.width = roundedProgress + '%';
+              if (percentageText) percentageText.textContent = roundedProgress + '%';
+          }
+      }, 30);
+      
+      window.addEventListener('load', () => {
+          isLoaded = true;
+      });
+    })();
+
+    // === Custom cursor ===
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      dot.style.left  = e.clientX + 'px';
+      dot.style.top   = e.clientY + 'px';
+      ring.style.left = e.clientX + 'px';
+      ring.style.top  = e.clientY + 'px';
+    });
+
+    // === Download button handler ===
+    document.getElementById('dlInput').addEventListener('change', function() {
+      if (this.checked) {
+        setTimeout(() => { downloadPDF(); }, 1000);
+      }
+    });
+  </script>
+
+  <!-- Meta AI Style Floating RAG Chatbot Widget -->
+  <div class="meta-chatbot-widget" id="metaChatbotWidget">
+    <button class="meta-chatbot-toggle" id="metaChatbotToggle" aria-label="Toggle Dasa AI Assistant">
+      <span class="meta-gradient-ring"></span>
+      <img src="{% static 'core/images/gold_flower.png' %}?v=1.6" class="bot-icon" style="width:50px; height:50px; object-fit:contain;" />
+      <i class="fas fa-times close-icon"></i>
+    </button>
+
+    <div class="meta-chatbot-window" id="metaChatbotWindow">
+      <div class="meta-chat-header">
+        <div class="meta-chat-header-info">
+          <div class="meta-chat-avatar"><img src="{% static 'core/images/logo.png' %}" style="width:100%; height:100%; object-fit:contain; border-radius:50%;" /></div>
+          <div class="meta-chat-title-group">
+            <h4>Dasa AI <span class="meta-chat-badge">RAG</span></h4>
+            <div class="meta-chat-status">Sanjaya's Assistant • Online</div>
+          </div>
+        </div>
+        <div class="meta-chat-header-actions">
+          <button id="metaChatCloseBtn" title="Close"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+
+      <div class="meta-chat-chips" id="metaChatChips">
+        <button class="meta-chip" data-question="Who is Sanjaya Kandel?">Who is Sanjaya?</button>
+        <button class="meta-chip" data-question="What are his core technical skills?">Technical Skills</button>
+        <button class="meta-chip" data-question="Tell me about his academic education background.">Education</button>
+        <button class="meta-chip" data-question="What web projects has Sanjaya built?">Projects</button>
+        <button class="meta-chip" data-question="How can I hire or contact Sanjaya?">Contact & Hire</button>
+      </div>
+
+      <div class="meta-chat-messages" id="metaChatMessages">
+        <div class="meta-msg bot-msg">
+          <div class="meta-msg-avatar"><i class="fas fa-robot"></i></div>
+          <div class="meta-msg-bubble">
+            👋 Hi! I am <strong>Dasa AI</strong>, Sanjaya's virtual assistant. Ask me anything about Sanjaya's professional skills, academic background, projects, or experience!
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-chat-input-area">
+        <input type="text" id="metaChatInput" placeholder="Ask Dasa AI about Sanjaya..." autocomplete="off" />
+        <button class="meta-chat-send-btn" id="metaChatSendBtn" aria-label="Send message">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      <div class="meta-chat-footer-note">
+        🔒 Private personal contacts are protected • Professional RAG AI Engine
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'core/js/chatbot.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Dynamically apply animation delay to each letter in the logo text
+      var loadingText = document.querySelector('.loading-text');
+      if (loadingText) {
+        var letters = loadingText.querySelectorAll('.letter');
+        letters.forEach(function (letter, idx) {
+          letter.style.animationDelay = ((idx + 1) * 0.1) + 's';
+        });
+      }
+      
+      // Smart loader hiding script
+      var loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        // Wait 1.2s to show letter animations and bar completion, then fade out
+        setTimeout(function () {
+          loadingScreen.classList.add('fade-out');
+          setTimeout(function () {
+            loadingScreen.style.display = 'none';
+          }, 500);
+        }, 1200);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary, linear-gradient(135deg, #0a0a0a 0%, #0f1f0f 50%, #0a0a0a 100%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  overflow: hidden;
+}
+
+/* Light Theme overrides */
+html[data-theme="light"] .loading-screen {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fff0 50%, #ffffff 100%) !important;
+}
+html[data-theme="light"] .letter {
+  color: #0b130a !important; /* Dark text for contrast */
+}
+html[data-theme="light"] .loading-status {
+  color: #335533 !important; /* Darker green text */
+}
+html[data-theme="light"] .dot {
+  background: #00b300 !important; /* Rich green dots */
+}
+html[data-theme="light"] .loading-bar {
+  background: rgba(0, 179, 0, 0.1) !important;
+}
+html[data-theme="light"] .loading-progress {
+  background: #00b300 !important;
+  box-shadow: 0 0 12px rgba(0, 179, 0, 0.35) !important;
+}
+html[data-theme="light"] .wave {
+  border-color: rgba(0, 179, 0, 0.12) !important;
+}
+html[data-theme="light"] .particle {
+  background: #00b300 !important;
+}
+html[data-theme="light"] .loading-screen::before {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 179, 0, 0.08) 0%, transparent 70%) !important;
+}
+
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.1) 0%, transparent 70%);
+  animation: backgroundPulse 3s ease-in-out infinite;
+}
+
+/* Animated Background Waves */
+.wave-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin: -100px 0 0 -100px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 255, 0, 0.1);
+  animation: waveExpand 3s ease-out infinite;
+}
+
+.wave1 {
+  animation-delay: 0s;
+}
+
+.wave2 {
+  animation-delay: 1s;
+  border-color: rgba(0, 255, 136, 0.08);
+}
+
+.wave3 {
+  animation-delay: 2s;
+  border-color: rgba(0, 255, 0, 0.05);
+}
+
+.loading-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-right: 3px solid #00ff88;
+  white-space: nowrap;
+  margin: 0 auto 1rem;
+  width: 0;
+  animation: 
+    typing 2s steps(25, end) forwards,
+    blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #00ff88; }
+}
+
+.uiverse-svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.loading-percentage {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00ff88;
+  text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+  margin-top: 1rem;
+}
+
+.loading-status {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #a89cc8;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+}
+
+.loading-bar {
+  width: 300px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #00ff88, #00b300);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+  transition: width 0.1s ease-out;
+}
+
+/* Loading Particles */
+.loading-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #00ff88;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.particle:nth-child(1) {
+  top: 20%;
+  left: 10%;
+  animation: floatParticle 3s ease-in-out infinite, particleGlow 2s ease-in-out infinite alternate;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation: floatParticle 4s ease-in-out infinite, particleGlow 2s ease-in-out infinite alternate;
+  animation-delay: 0.5s;
+}
+
+.particle:nth-child(3) {
+  top: 80%;
+  left: 20%;
+  animation: floatParticle 3.5s ease-in-out infinite, particleGlow 2s ease-in-out infinite alternate;
+  animation-delay: 1s;
+}
+
+.particle:nth-child(4) {
+  top: 30%;
+  left: 70%;
+  animation: floatParticle 2.8s ease-in-out infinite, particleGlow 2s ease-in-out infinite alternate;
+  animation-delay: 1.5s;
+}
+
+.particle:nth-child(5) {
+  top: 70%;
+  left: 50%;
+  animation: floatParticle 3.2s ease-in-out infinite, particleGlow 2s ease-in-out infinite alternate;
+  animation-delay: 2s;
+}
+
+/* Keyframes */
+@keyframes loadingProgress {
+  0% { width: 0%; opacity: 0.8; }
+  100% { width: 100%; opacity: 1; }
+}
+
+@keyframes breathingGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+    border-color: #00ff88;
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(0, 255, 0, 0.6), 0 0 80px rgba(0, 255, 0, 0.2);
+    border-color: #00ff88;
+  }
+}
+
+@keyframes rippleEffect {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes progressShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+@keyframes backgroundPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+  25% { transform: translateY(-20px) translateX(10px) scale(1.2); }
+  50% { transform: translateY(-10px) translateX(-15px) scale(0.8); }
+  75% { transform: translateY(-25px) translateX(5px) scale(1.1); }
+}
+
+@keyframes particleGlow {
+  0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.3); background: #00ff88; }
+  100% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 25px rgba(0, 255, 0, 0.4); background: #00ff88; }
+}
+
+@keyframes waveExpand {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+}
+
+@keyframes letterPop {
+  0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+  50% { transform: translateY(-5px) scale(1.1); }
+  100% { opacity: 1; transform: translateY(0) scale(1); color: #00ff88; text-shadow: 0 0 15px rgba(0, 255, 0, 0.5); }
+}
+
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes statusBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.5; }
+}

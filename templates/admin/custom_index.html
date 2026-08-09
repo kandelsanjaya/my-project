@@ -1,0 +1,186 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+{# ── Welcome Banner ────────────────────────────────────── #}
+<div class="sk-welcome-banner">
+  <div>
+    <div class="sk-welcome-h">Good day, {{ user.username }}! 👋</div>
+    <div class="sk-welcome-sub">Here's what's happening with your portfolio today.</div>
+  </div>
+  <div class="sk-online-pill">
+    <span class="sk-pulse"></span>
+    Site Online
+  </div>
+</div>
+
+{# ── 4 Stat Cards ─────────────────────────────────────── #}
+<div class="sk-stats-row">
+  <div class="sk-stat">
+    <div class="sk-stat-icon">👁️</div>
+    <div class="sk-stat-label">Total Visits</div>
+    <div class="sk-stat-value">{{ visitor_total }}</div>
+    <div class="sk-stat-sub"><span class="sk-stat-up">↑ All time</span></div>
+  </div>
+  <div class="sk-stat">
+    <div class="sk-stat-icon">📅</div>
+    <div class="sk-stat-label">Today</div>
+    <div class="sk-stat-value">{{ visitor_today }}</div>
+    <div class="sk-stat-sub">visits today</div>
+  </div>
+  <div class="sk-stat">
+    <div class="sk-stat-icon">📈</div>
+    <div class="sk-stat-label">This Week</div>
+    <div class="sk-stat-value">{{ visitor_week }}</div>
+    <div class="sk-stat-sub">last 7 days</div>
+  </div>
+  <div class="sk-stat">
+    <div class="sk-stat-icon">✉️</div>
+    <div class="sk-stat-label">Unread Messages</div>
+    <div class="sk-stat-value">{{ unread_messages }}</div>
+    <div class="sk-stat-sub">
+      {% if unread_messages > 0 %}<span class="sk-stat-down">needs attention</span>{% else %}all read ✓{% endif %}
+    </div>
+  </div>
+</div>
+
+{# ── Quick Actions ─────────────────────────────────────── #}
+<div class="sk-quick-grid">
+  <a href="{% url 'portfolio_admin:messages-inbox' %}" class="sk-quick-item">
+    <div class="sk-quick-icon">✉️</div>
+    Inbox
+  </a>
+  <a href="{% url 'portfolio_admin:visitor-stats' %}" class="sk-quick-item">
+    <div class="sk-quick-icon">📊</div>
+    Analytics
+  </a>
+  <a href="{% url 'portfolio_admin:core_skill_add' %}" class="sk-quick-item">
+    <div class="sk-quick-icon">⚡</div>
+    Add Skill
+  </a>
+  <a href="{% url 'portfolio_admin:core_project_add' %}" class="sk-quick-item">
+    <div class="sk-quick-icon">🗂️</div>
+    Add Project
+  </a>
+  <a href="{% url 'portfolio_admin:core_sitesettings_changelist' %}" class="sk-quick-item">
+    <div class="sk-quick-icon">⚙️</div>
+    Settings
+  </a>
+  <a href="/cv/" target="_blank" class="sk-quick-item">
+    <div class="sk-quick-icon">📄</div>
+    View CV
+  </a>
+</div>
+
+{# ── Main 2-col area ───────────────────────────────────── #}
+<div class="sk-three-col">
+
+  {# Left col — Recent Messages + Visitor Chart #}
+  <div>
+    {# Messages Preview #}
+    <div class="sk-card" style="margin-bottom:20px;">
+      <div class="sk-card-head">
+        <div class="sk-card-title">
+          📬 Recent Messages
+          {% if unread_messages > 0 %}<span class="sk-badge">{{ unread_messages }}</span>{% endif %}
+        </div>
+        <a href="{% url 'portfolio_admin:messages-inbox' %}" class="sk-view-all">View All →</a>
+      </div>
+      <div class="sk-msg-list">
+        {% for msg in recent_messages %}
+        <a href="{% url 'portfolio_admin:messages-inbox' %}" class="sk-msg-item {% if not msg.is_read %}unread{% endif %}">
+          {% if not msg.is_read %}<span class="sk-unread-dot"></span>{% endif %}
+          <div class="sk-msg-av">{{ msg.name|first|upper }}</div>
+          <div style="flex:1;min-width:0;">
+            <div class="sk-msg-name">{{ msg.name }}</div>
+            <div class="sk-msg-preview">{{ msg.message|truncatechars:50 }}</div>
+          </div>
+          <div class="sk-msg-time">{{ msg.created_at|timesince }} ago</div>
+        </a>
+        {% empty %}
+        <div style="padding:28px 20px; text-align:center; color:var(--text-muted); font-size:0.85rem;">
+          📭 No messages yet.
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {# Visitor Bar Chart #}
+    <div class="sk-card">
+      <div class="sk-card-head">
+        <div class="sk-card-title">📉 Visitor Trend (14 Days)</div>
+        <a href="{% url 'portfolio_admin:visitor-stats' %}" class="sk-view-all">Details →</a>
+      </div>
+      <div class="sk-card-body">
+        <div class="sk-bar-chart" id="skBarChart">
+          {# Populated by JS below #}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Right col — Model App List #}
+  <div>
+    <div class="sk-card">
+      <div class="sk-card-head">
+        <div class="sk-card-title">⚙️ Manage Content</div>
+      </div>
+      <div class="sk-card-body" style="padding-top:8px;">
+        {% for app in app_list %}
+          {% for model in app.models %}
+          <a href="{{ model.admin_url }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);text-decoration:none !important;color:inherit !important;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">
+            <span style="font-size:1.1rem;">
+              {% if 'Contact' in model.name %}✉️
+              {% elif 'Skill' in model.name %}⚡
+              {% elif 'Project' in model.name %}🗂️
+              {% elif 'Education' in model.name %}🎓
+              {% elif 'Certificate' in model.name %}🏅
+              {% elif 'Visit' in model.name %}👁️
+              {% elif 'Setting' in model.name %}⚙️
+              {% else %}📄{% endif %}
+            </span>
+            <div style="flex:1;">
+              <div style="font-size:0.87rem;font-weight:600;color:var(--text-primary);">{{ model.name }}</div>
+              {% if model.object_count is not None %}
+              <div style="font-size:0.74rem;color:var(--text-muted);">{{ model.object_count }} item{{ model.object_count|pluralize }}</div>
+              {% endif %}
+            </div>
+            {% if model.add_url %}
+            <a href="{{ model.add_url }}" style="font-size:0.72rem;background:var(--accent-btn);color:#fff !important;padding:3px 10px;border-radius:50px;font-weight:600;text-decoration:none !important;">+ Add</a>
+            {% endif %}
+          </a>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block content_popup %}
+<script>
+// Render visitor bar chart with data from context
+(function() {
+  // We inject the chart data via inline script since we can't pass it through JS directly
+  const chart = document.getElementById('skBarChart');
+  if (!chart) return;
+
+  // Fetch chart data via a simple AJAX-free approach — build from known data
+  // The visitor_stats view will provide it; here we create placeholder animated bars
+  const data = [
+    {% for d in days %}{ label: "{{ d.date }}", count: {{ d.count }} }{% if not forloop.last %},{% endif %}{% endfor %}
+  ];
+
+  if (!data.length) return;
+  const max = Math.max(...data.map(d => d.count), 1);
+  chart.innerHTML = data.map(d => `
+    <div class="sk-bar-col">
+      <div class="sk-bar-cnt">${d.count}</div>
+      <div class="sk-bar" style="height:${Math.max(2, (d.count/max)*100)}%" title="${d.label}: ${d.count} visits"></div>
+      <div class="sk-bar-lbl">${d.label}</div>
+    </div>
+  `).join('');
+})();
+</script>
+{% endblock %}

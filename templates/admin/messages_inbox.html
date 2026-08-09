@@ -1,0 +1,51 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<div class="sk-inbox-wrap">
+  <div class="sk-inbox-h">
+    ✉️ Messages Inbox
+    {% if unread_count > 0 %}<span class="sk-badge">{{ unread_count }}</span>{% endif %}
+  </div>
+
+  <div class="sk-filter-bar">
+    <a href="?filter=all" class="sk-btn {% if filter != 'unread' %}sk-btn-pri{% else %}sk-btn-sec{% endif %}">📬 All Messages</a>
+    <a href="?filter=unread" class="sk-btn {% if filter == 'unread' %}sk-btn-pri{% else %}sk-btn-sec{% endif %}">🔵 Unread{% if unread_count > 0 %} ({{ unread_count }}){% endif %}</a>
+    <a href="{% url 'portfolio_admin:core_contactmessage_changelist' %}" class="sk-btn sk-btn-sec" style="margin-left:auto;">⚙️ Table View</a>
+  </div>
+
+  {% if messages_list %}
+    {% for msg in messages_list %}
+    <div class="sk-msg-card {% if not msg.is_read %}unread{% endif %}">
+      <div class="sk-msg-card-hdr">
+        <div class="sk-msg-card-av">{{ msg.name|first|upper }}</div>
+        <div style="flex:1;">
+          <div class="sk-msg-card-name">{{ msg.name }}{% if not msg.is_read %} <span style="color:var(--accent); font-size:0.72rem;">● NEW</span>{% endif %}</div>
+          <div class="sk-msg-card-email">{{ msg.email }}</div>
+        </div>
+        <div class="sk-msg-card-time">{{ msg.created_at|date:"M d, Y — H:i" }}</div>
+      </div>
+      <div class="sk-msg-body-txt">{{ msg.message }}</div>
+      <div class="sk-msg-acts">
+        <a href="mailto:{{ msg.email }}?subject=Re: Your message on Sanjaya Kandel Portfolio" class="sk-btn sk-btn-pri" target="_blank">📨 Reply</a>
+        {% if msg.is_read %}
+          <a href="?mark_unread={{ msg.pk }}&filter={{ filter|default:'all' }}" class="sk-btn sk-btn-sec">Mark Unread</a>
+        {% else %}
+          <a href="?mark_read={{ msg.pk }}&filter={{ filter|default:'all' }}" class="sk-btn sk-btn-sec">✅ Mark Read</a>
+        {% endif %}
+        <a href="?delete={{ msg.pk }}&filter={{ filter|default:'all' }}" class="sk-btn sk-btn-del"
+           onclick="return confirm('Delete message from {{ msg.name }}?')">🗑️ Delete</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="sk-empty">
+      <div class="sk-empty-icon">📭</div>
+      <h3 style="color:var(--text-primary); margin-bottom:8px;">
+        {% if filter == 'unread' %}All caught up!{% else %}No messages yet{% endif %}
+      </h3>
+      <p style="font-size:0.87rem;">{% if filter == 'unread' %}No unread messages.{% else %}Contact form submissions will appear here.{% endif %}</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

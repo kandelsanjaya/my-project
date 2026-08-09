@@ -1,0 +1,1171 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description"
+    content="Sanjaya Kandel - Professional Full Stack Web Developer, UI/UX Designer and AI Enthusiast from Nepal. Expert in JavaScript, HTML5, CSS3, Python, and modern web technologies. Building modern, responsive, SEO-optimized web applications with creative digital design." />
+  <meta name="keywords"
+    content="Sanjaya Kandel, Full Stack Developer Nepal, Web Developer Nepal, JavaScript Developer, UI UX Designer Nepal, Freelance Web Developer Nepal, Portfolio Website, AI ML Developer, Responsive Web Design, Creative Coder Nepal, Sanjaya Kandel Portfolio, Nepal Web Developer" />
+  <meta name="author" content="Sanjaya Kandel" />
+
+  <meta name="geo.region" content="NP-P5" />
+  <meta name="geo.placename" content="Gaindakot, Nawalpur" />
+  <meta name="geo.position" content="27.6917;84.1242" />
+  <meta name="ICBM" content="27.6917, 84.1242" />
+  <meta name="language" content="English" />
+  <meta name="rating" content="general" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="classification" content="Portfolio, Web Development, Technology" />
+
+  <meta property="og:site_name" content="Sanjaya Kandel - Full Stack Developer & UI/UX Designer" />
+  <meta property="og:title" content="Sanjaya Kandel | Full Stack Web Developer & UI/UX Designer Nepal" />
+  <meta property="og:description"
+    content="Professional Full Stack Web Developer and UI/UX Designer from Nepal specializing in JavaScript, Python, and modern web technologies. Expert in building responsive, SEO-optimized applications with AI/ML integration. Available for freelance projects." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image"
+    content="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}{% static 'core/images/logo.png' %}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Sanjaya Kandel - Full Stack Web Developer & UI/UX Designer" />
+  <meta property="og:url" content="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="ne_NP" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@kandelsanjaya" />
+  <meta name="twitter:creator" content="@kandelsanjaya" />
+  <meta name="twitter:title" content="Sanjaya Kandel | Full Stack Web Developer & UI/UX Designer" />
+  <meta name="twitter:description"
+    content="Professional Full Stack Developer and UI/UX Designer from Nepal. Expert in JavaScript, Python, AI/ML. Building modern, responsive, SEO-optimized web applications." />
+  <meta name="twitter:image"
+    content="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}{% static 'core/images/logo.png' %}" />
+  <meta name="twitter:image:alt" content="Sanjaya Kandel - Full Stack Web Developer & UI/UX Designer" />
+
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="bingbot" content="index, follow" />
+  <meta name="theme-color" content="#00b300" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="canonical" href="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/" />
+  <link rel="icon" type="image/png" href="{% static 'core/images/favicon.png' %}" />
+  <title>Sanjaya Kandel | Full Stack Developer & UI/UX Designer</title>
+
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://kandelsanjaya.com.np/#person",
+        "name": "Sanjaya Kandel",
+        "alternateName": ["Sanjaya", "Kandel Sanjaya"],
+        "url": "https://kandelsanjaya.com.np/",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://kandelsanjaya.com.np/images/sanjaya.jpg",
+          "width": 800,
+          "height": 800
+        },
+        "sameAs": [
+          "https://github.com/kandelsanjaya",
+          "https://youtube.com/@kandelsanjaya6613",
+          "https://www.tiktok.com/@sanjaya_013"
+        ],
+        "jobTitle": "Full Stack Web Developer & UI/UX Designer",
+        "email": "kandelsanjaya7@gmail.com",
+        "address": { "@type": "PostalAddress", "addressCountry": "Nepal" },
+        "worksFor": { "@type": "Organization", "name": "Freelance Web Developer" },
+        "nationality": { "@type": "Country", "name": "Nepal" },
+        "description": "Professional Full Stack Web Developer, UI/UX Designer, and AI Enthusiast from Nepal specializing in JavaScript, Python, and modern web technologies."
+      }
+    </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=1.7" />
+  <link rel="stylesheet" href="{% static 'core/css/loader.css' %}?v=1.9" />
+  <link rel="stylesheet" href="{% static 'core/css/responsive.css' %}?v=1.7" />
+  <link rel="stylesheet" href="{% static 'core/css/animations.css' %}?v=1.7" />
+  <link rel="stylesheet" href="{% static 'core/css/chatbot.css' %}?v=1.8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Background Canvas for Stars & Meteors -->
+  <canvas id="bgCanvas"
+    style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none;"></canvas>
+  <script>
+    (function () {
+      const canvas = document.getElementById('bgCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+      class Star {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = Math.random() * 1.5;
+          this.blinkSpeed = 0.01 + Math.random() * 0.02;
+          this.alpha = Math.random();
+        }
+        draw() {
+          this.alpha += this.blinkSpeed;
+          if (this.alpha > 1 || this.alpha < 0) {
+            this.blinkSpeed = -this.blinkSpeed;
+          }
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.1, this.alpha)})`;
+          ctx.fill();
+        }
+      }
+      class Firefly {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.size = 1 + Math.random() * 2;
+          this.speedX = (Math.random() - 0.5) * 0.5;
+          this.speedY = (Math.random() - 0.5) * 0.5;
+          this.alpha = Math.random();
+          this.fadeSpeed = 0.005 + Math.random() * 0.01;
+          this.color = Math.random() > 0.5 ? 'rgba(0, 255, 136, ' : 'rgba(0, 198, 255, ';
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > width) this.speedX *= -1;
+          if (this.y < 0 || this.y > height) this.speedY *= -1;
+          this.alpha += this.fadeSpeed;
+          if (this.alpha > 0.8 || this.alpha < 0.2) {
+            this.fadeSpeed = -this.fadeSpeed;
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + this.alpha + ')';
+          ctx.fill();
+        }
+      }
+      class Meteor {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * width * 1.5;
+          this.y = -Math.random() * 100;
+          this.length = 80 + Math.random() * 120;
+          this.speed = 12 + Math.random() * 10;
+          this.angle = Math.PI * 0.75 + (Math.random() - 0.5) * 0.1;
+          this.alpha = 1;
+          this.active = Math.random() > 0.98;
+        }
+        update() {
+          if (!this.active) {
+            if (Math.random() > 0.997) this.active = true;
+            return;
+          }
+          this.x += Math.cos(this.angle) * this.speed;
+          this.y += Math.sin(this.angle) * this.speed;
+          this.alpha -= 0.015;
+          if (this.x < -200 || this.y > height + 200 || this.alpha <= 0) {
+            this.reset();
+          }
+        }
+        draw() {
+          if (!this.active) return;
+          ctx.beginPath();
+          const grad = ctx.createLinearGradient(
+            this.x, this.y,
+            this.x - Math.cos(this.angle) * this.length,
+            this.y - Math.sin(this.angle) * this.length
+          );
+          grad.addColorStop(0, `rgba(255, 255, 255, ${this.alpha})`);
+          grad.addColorStop(0.5, `rgba(99, 102, 241, ${this.alpha * 0.5})`);
+          grad.addColorStop(1, 'rgba(99, 102, 241, 0)');
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.5;
+          ctx.lineCap = 'round';
+          ctx.moveTo(this.x, this.y);
+          ctx.lineTo(
+            this.x - Math.cos(this.angle) * this.length,
+            this.y - Math.sin(this.angle) * this.length
+          );
+          ctx.stroke();
+        }
+      }
+      const stars = Array.from({ length: 80 }, () => new Star());
+      const fireflies = Array.from({ length: 45 }, () => new Firefly());
+      const meteors = Array.from({ length: 4 }, () => new Meteor());
+      function loop() {
+        ctx.clearRect(0, 0, width, height);
+        stars.forEach(s => s.draw());
+        fireflies.forEach(f => { f.update(); f.draw(); });
+        meteors.forEach(m => { m.update(); m.draw(); });
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+  </script>
+
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <h1 class="welcome-title">WELCOME TO MY PORTFOLIO</h1>
+      <div class="uiverse-svg-container">
+        <svg width="280" height="280" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="1.5" result="blur"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Central Glowing Sun -->
+          <circle cx="50" cy="50" r="6" fill="#00ff88" filter="url(#glow)">
+            <animate attributeName="r" values="5.5;6.5;5.5" dur="2s" repeatCount="indefinite" />
+          </circle>
+
+          <!-- Orbit 1 (0 deg - Indigo/Purple) -->
+          <g transform="rotate(0 50 50)">
+            <circle fill="#9d00ff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#8f00ff" r="1.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.05s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#8000f0" r="1.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.1s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#7200e0" r="1.3" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.15s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#6400d0" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.2s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#5600c0" r="1.0" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.25s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#4800b0" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.3s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#3a00a0" r="0.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.35s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#2c0090" r="0.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#1e0080" r="0.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 2 (36 deg - Cyan/Blue) -->
+          <g transform="rotate(36 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.1s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#f0ffff" r="1.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.15s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#d0ffff" r="1.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.2s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#b0ffff" r="1.3" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.25s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00f0ff" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.3s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00d4ff" r="1.0" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.35s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00b7eb" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#0099cc" r="0.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#0077aa" r="0.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.5s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#005588" r="0.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.55s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 3 (72 deg - Green/Neon) -->
+          <g transform="rotate(72 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.2s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#f0fff0" r="1.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.25s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#d0ffd0" r="1.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.3s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#a0ffa0" r="1.3" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.35s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00ffcc" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00ffaa" r="1.0" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00ff88" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.5s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00dd77" r="0.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.55s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#00bb66" r="0.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.6s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#009955" r="0.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.65s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 4 (108 deg - Gold/Orange) -->
+          <g transform="rotate(108 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.3s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#fffae0" r="1.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.35s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#fff0a0" r="1.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffeb3b" r="1.3" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffd700" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.5s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffc107" r="1.0" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.55s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff9800" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.6s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff7700" r="0.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.65s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff5722" r="0.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.7s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#dd3300" r="0.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.75s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+
+          <!-- Orbit 5 (144 deg - Pink/Magenta) -->
+          <g transform="rotate(144 50 50)">
+            <circle fill="#ffffff" r="1.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.4s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#fff0ff" r="1.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.45s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ffd0ff" r="1.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.5s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff00ff" r="1.3" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.55s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#ff007f" r="1.2" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.6s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#d300c4" r="1.0" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.65s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#9a00a3" r="0.9" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.7s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#800066" r="0.8" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.75s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#6a0073" r="0.6" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.8s" dur="2.5s"></animateMotion>
+            </circle>
+            <circle fill="#4a0053" r="0.4" filter="url(#glow)">
+              <animateMotion path="M 50 10 A 15 40 0 1 1 49.9 10 Z" repeatCount="indefinite" begin="-0.85s" dur="2.5s"></animateMotion>
+            </circle>
+          </g>
+        </svg>
+      </div>
+      <div class="loading-percentage" id="loading-percentage-text">0%</div>
+      <div class="loading-bar">
+        <div class="loading-progress" id="loading-progress-bar" style="width: 0%;"></div>
+      </div>
+      <div class="loading-status">Loading Portfolio...</div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-left">
+        <img src="{% static 'core/images/logo.png' %}" alt="Sanjaya Kandel logo"
+          style="height:95px; width:95px; cursor: pointer; filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.7)); display: block;"
+          title="Refresh sanjaya's site " onclick="location.reload()" />
+      </div>
+      <div class="navbar-center">
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link active" title="Go to Home Section">Home</a></li>
+          <li><a href="#about" class="nav-link" title="Go to About Section">About</a></li>
+          <li><a href="#projects" class="nav-link" title="Go to Projects Section">Projects</a></li>
+          <li><a href="#skills" class="nav-link" title="Go to Skills Section">Skills</a></li>
+          <li><a href="#education" class="nav-link" title="Go to Education Section">Education</a></li>
+          <li><a href="#certificates" class="nav-link" title="Go to Certificates Section">Certificates</a></li>
+          <li><a href="#contact" class="nav-link" title="Go to Contact Section">Contact</a></li>
+        </ul>
+      </div>
+      <div class="navbar-right">
+        <div class="theme-toggle" id="theme-toggle" title="Toggle Dark/Light Mode">
+          <div class="theme-toggle-slider"></div>
+          <i class="fas fa-sun theme-toggle-icon sun"></i>
+          <i class="fas fa-moon theme-toggle-icon moon"></i>
+        </div>
+        <div class="hamburger" id="hamburger" title="Open Mobile Menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#home" class="mobile-nav-link active" title="Go to Home Section">Home</a>
+      <a href="#about" class="mobile-nav-link" title="Go to About Section">About</a>
+      <a href="#projects" class="mobile-nav-link" title="Go to Projects Section">Projects</a>
+      <a href="#skills" class="mobile-nav-link" title="Go to Skills Section">Skills</a>
+      <a href="#education" class="mobile-nav-link" title="Go to Education Section">Education</a>
+      <a href="#certificates" class="mobile-nav-link" title="Go to Certificates Section">Certificates</a>
+      <a href="#contact" class="mobile-nav-link" title="Go to Contact Section">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Floating Bookmark Navigation -->
+  <div class="bookmark-nav" id="bookmark-nav">
+    <div class="bookmark-container">
+      <div class="bookmark-item" data-section="home">
+        <div class="bookmark-icon"><i class="fas fa-home"></i></div>
+        <span class="tooltip">Home</span>
+      </div>
+      <div class="bookmark-item" data-section="about">
+        <div class="bookmark-icon"><i class="fas fa-user"></i></div>
+        <span class="tooltip">About</span>
+      </div>
+      <div class="bookmark-item" data-section="projects">
+        <div class="bookmark-icon"><i class="fas fa-folder-open"></i></div>
+        <span class="tooltip">Projects</span>
+      </div>
+      <div class="bookmark-item" data-section="skills">
+        <div class="bookmark-icon"><i class="fas fa-code"></i></div>
+        <span class="tooltip">Skills</span>
+      </div>
+      <div class="bookmark-item" data-section="education">
+        <div class="bookmark-icon"><i class="fas fa-graduation-cap"></i></div>
+        <span class="tooltip">Education</span>
+      </div>
+      <div class="bookmark-item" data-section="certificates">
+        <div class="bookmark-icon"><i class="fas fa-certificate"></i></div>
+        <span class="tooltip">Certificates</span>
+      </div>
+      <div class="bookmark-item" data-section="contact">
+        <div class="bookmark-icon"><i class="fas fa-envelope"></i></div>
+        <span class="tooltip">Contact</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="go-to-top" id="go-to-top" title="Go to Top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-container">
+        <div class="hero-content">
+          <p class="hero-greeting">HELLO, I'M</p>
+          <h1 class="hero-name">{{ site.full_name }}</h1>
+          <h2 class="hero-role">
+            <span id="typed-text"></span>
+            <span class="typing-cursor">|</span>
+          </h2>
+          <p class="hero-description">
+            I create calm, polished, and practical digital experiences for
+            people, brands, and ideas. Building thoughtful web applications
+            with modern design, clean code, and AI-assisted workflows.
+          </p>
+          <div class="hero-buttons">
+            <a href="#contact-form" class="btn btn-primary" title="Get in touch with me">
+              <i class="fas fa-envelope"></i> Get In Touch
+            </a>
+            <a href="{% url 'cv' %}?download=true" class="btn btn-secondary" target="_blank"
+              title="View and Download my CV">
+              <i class="fas fa-download"></i> Download CV
+            </a>
+          </div>
+          <div class="hero-social">
+            {% if site.github_url %}
+            <a href="{{ site.github_url }}" class="social-link" aria-label="GitHub" target="_blank"
+              title="Visit my GitHub profile">
+              <i class="fab fa-github"></i>
+            </a>
+            {% endif %}
+            {% if site.youtube_url %}
+            <a href="{{ site.youtube_url }}" class="social-link" aria-label="YouTube" target="_blank"
+              title="Visit my YouTube channel">
+              <i class="fab fa-youtube"></i>
+            </a>
+            {% endif %}
+            {% if site.tiktok_url %}
+            <a href="{{ site.tiktok_url }}" class="social-link" aria-label="TikTok" target="_blank"
+              title="Follow me on TikTok">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            {% endif %}
+            <a href="mailto:{{ site.email }}" class="social-link" aria-label="Email" title="Send me an email">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="image-container">
+            <img
+              src="{% if site.profile_photo %}{{ site.profile_photo.url }}{% else %}{% static 'core/images/sanjaya.jpg' %}{% endif %}"
+              alt="Sanjaya Kandel profile photo" class="profile-image"
+              onerror="this.onerror=null;this.style.opacity='0';" />
+            <div class="floating-badge badge-1"><i class="fas fa-code"></i><span>Full Stack</span></div>
+            <div class="floating-badge badge-2"><i class="fas fa-palette"></i><span>UI/UX</span></div>
+            <div class="floating-badge badge-3"><i class="fas fa-robot"></i><span>AI Builder</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="section-header fade-section">
+          <h2 class="section-title">About Me</h2>
+        </div>
+        <div class="about-container">
+          <div class="about-top-row">
+            <div class="about-content fade-left delay-1">
+              <div class="about-text">
+                <h3>Who Am I?</h3>
+                {% if site.about_text %}
+                {{ site.about_text|linebreaks }}
+                {% else %}
+                <p>
+                  I'm Sanjaya Kandel — a Full Stack Web Developer, UI/UX Designer,
+                  and AI Enthusiast from Nepal. I work across product thinking,
+                  interface design, front-end implementation, backend APIs, and
+                  AI-assisted workflows.
+                </p>
+                <p>
+                  I turn ideas into usable websites and applications: clean layouts,
+                  responsive experiences, API-backed features, and visual systems
+                  that feel personal without becoming hard to maintain. I believe
+                  software should feel alive, fluid, and delightful to interact with.
+                </p>
+                {% endif %}
+              </div>
+            </div>
+            <div class="about-stats fade-right delay-2">
+              <div class="stats-container">
+                <div class="stat-item scale-in delay-1">
+                  <div class="stat-number" data-count="{{ projects_completed_count }}" data-plus="true">0</div>
+                  <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item scale-in delay-2">
+                  <div class="stat-number" data-count="{{ site.years_experience }}" data-plus="true">0</div>
+                  <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item scale-in delay-3">
+                  <div class="stat-number" data-count="{{ site.client_satisfaction }}">0</div>
+                  <div class="stat-suffix">%</div>
+                  <div class="stat-label">Client Satisfaction</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skills-highlight fade-up delay-3">
+            <h3>What I Do</h3>
+            <div class="skills-grid">
+              <div class="skill-item fade-up delay-1">
+                <div class="skill-icon"><i class="fas fa-code"></i></div>
+                <h4>Full-Stack Development</h4>
+                <p>Building complete web applications from UI to APIs — clean layouts, responsive experiences, and
+                  backend logic that works.</p>
+              </div>
+              <div class="skill-item fade-up delay-2">
+                <div class="skill-icon"><i class="fas fa-palette"></i></div>
+                <h4>UI/UX Design</h4>
+                <p>Designing polished, intuitive interfaces with glassmorphism, dark modes, micro-animations, and
+                  thoughtful user flows.</p>
+              </div>
+              <div class="skill-item fade-up delay-3">
+                <div class="skill-icon"><i class="fas fa-robot"></i></div>
+                <h4>AI Builder</h4>
+                <p>Integrating AI-assisted workflows into web products to create smarter, more dynamic digital
+                  experiences.</p>
+              </div>
+              <div class="skill-item fade-up delay-4">
+                <div class="skill-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h4>Creative Coding</h4>
+                <p>Crafting interactive canvas animations, particle systems, and digital art that feels alive from the
+                  first interaction.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section">
+      <div class="container">
+        <div class="section-header fade-section">
+          <h2 class="section-title">My Skills</h2>
+        </div>
+        <div class="skills-container">
+          <div class="main-skills fade-left delay-1">
+            <h3>Core Technologies</h3>
+            <div class="skill-bars">
+              {% for skill in core_skills %}
+              <div class="skill-bar fade-up delay-{{ forloop.counter }}">
+                <div class="skill-info">
+                  <span class="skill-name"><i class="{{ skill.icon_class }}"></i> {{ skill.name }}</span>
+                  <span class="skill-percentage">{{ skill.percentage }}%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" data-width="{{ skill.percentage }}"></div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="supporting-skills fade-right delay-2">
+            <h3>Tools &amp; Technologies</h3>
+            <div class="tools-grid">
+              {% for tool in tool_skills %}
+              <div class="tool-item fade-up delay-{{ forloop.counter }}">
+                <div class="tool-icon"><i class="{{ tool.icon_class }}"></i></div>
+                <span>{{ tool.name }}</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="learning-section fade-up delay-3">
+          <h3>Currently Learning</h3>
+          <div class="learning-tags">
+            {% for l in learning_skills %}
+            <span class="learning-tag"><i class="{{ l.icon_class }}"></i> {{ l.name }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education-section">
+      <div class="container">
+        <div class="section-header fade-section">
+          <h2 class="section-title">Education & Achievements</h2>
+        </div>
+        <div class="education-timeline">
+          {% for edu in education %}
+          <div class="timeline-item fade-up delay-{{ forloop.counter }}">
+            <div class="timeline-icon"><i class="{{ edu.icon_class }}"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-period">{{ edu.period }}</div>
+              <div class="education-status {{ edu.status }}">{{ edu.get_status_display }}</div>
+              <h3>{{ edu.title }}</h3>
+              {% if edu.subtitle %}<h4>{{ edu.subtitle }}</h4>{% endif %}
+              <p class="institution">{{ edu.institution }}</p>
+              {% if edu.skills_learned %}
+              <div class="skills-learned">
+                <h5>Key Skills Learned:</h5>
+                <div class="skill-tags">
+                  {% for s in edu.skills_list %}
+                  <span class="skill-tag">{{ s }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="achievements-section fade-up delay-2" id="certificates">
+          <h3 class="subsection-title">Achievements & Certifications</h3>
+          <div class="certificates-grid" id="certificates-visible"
+            style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width: 800px; margin: 0 auto;">
+            {% for cert in certificates %}
+            <div class="certificate-photo-card fade-up delay-{{ forloop.counter }}">
+              <div class="cert-image-container">
+                <img src="{{ cert.image.url }}" alt="Certificate: {{ cert.title }}" loading="lazy" class="cert-image" />
+                <div class="cert-actions">
+                  <button class="cert-action-btn view-btn" data-cert="{{ cert.image.url }}" title="View Certificate">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="cert-action-btn download-btn" data-cert="{{ cert.image.url }}"
+                    data-name="{{ cert.title|slugify }}.jpg" title="Download Certificate">
+                    <i class="fas fa-download"></i>
+                  </button>
+                </div>
+                <div class="cert-overlay">
+                  <div class="cert-info">
+                    <h4>{{ cert.title }}</h4>
+                    {% if cert.provider %}<p class="cert-provider">{{ cert.provider }}</p>{% endif %}
+                    {% if cert.date_text %}<p class="cert-date">{{ cert.date_text }}</p>{% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+      <div class="container">
+        <div class="section-header fade-section">
+          <h2 class="section-title">My Projects</h2>
+        </div>
+        <div class="projects-category website-category">
+          <h3 class="projects-category-title fade-up">Web Applications</h3>
+          <div class="projects-grid">
+            {% for project in web_projects %}
+            <div class="project-card website-card fade-up delay-{{ forloop.counter }}" {% if project.live_url %}data-url="{{ project.live_url }}"{% endif %} role="link" tabindex="0"
+              aria-label="Open {{ project.title }} project">
+              <div class="project-image">
+                {% if project.image %}
+                <img src="{{ project.image.url }}" alt="Screenshot of {{ project.title }} project" loading="lazy"
+                  onerror="this.src='{% static "core/images/logo.png" %}';this.style.objectFit='contain';this.style.padding='30px'" />
+                {% else %}
+                <img src="{% static 'core/images/logo.png' %}" alt="{{ project.title }}" style="object-fit:contain;padding:30px" />
+                {% endif %}
+                <div class="project-overlay">
+                  <div class="project-actions">
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" class="project-btn live-btn" target="_blank">
+                      <i class="fas fa-external-link-alt"></i><span>Live Demo</span>
+                    </a>
+                    {% elif project.is_private %}
+                    <span class="project-btn live-btn" style="cursor:default;opacity:.7">
+                      <i class="fas fa-lock"></i><span>Private</span>
+                    </span>
+                    {% else %}
+                    <span class="project-btn live-btn" style="cursor:default;opacity:.7">
+                      <i class="fas fa-code"></i><span>Full-Stack</span>
+                    </span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <div class="project-status">
+                    <span class="status-badge {{ project.status }}">{{ project.get_status_display }}</span>
+                  </div>
+                </div>
+                <p class="project-description">{{ project.description }}</p>
+                {% if project.features_list %}
+                <div class="project-features">
+                  <ul>
+                    {% for f in project.features_list %}
+                    <li><i class="fas fa-check"></i> {{ f }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="projects-category design-category">
+          <h3 class="projects-category-title fade-up">Design</h3>
+          <div class="projects-grid">
+            {% for design in design_projects %}
+            {% if design.image %}
+            <div class="design-card fade-up delay-{{ forloop.counter }}">
+              <div class="design-card-inner">
+                <div class="design-image-wrapper">
+                  <img src="{{ design.image.url }}" alt="{{ design.title }} design preview"
+                    class="design-lightbox-trigger design-preview-image" data-design-image="{{ design.image.url }}"
+                    role="button" tabindex="0" aria-label="Open {{ design.title }} design preview" loading="lazy" />
+                  <div class="design-overlay">
+                    <div class="design-info">
+                      <h4 class="design-title">{{ design.title }}</h4>
+                      {% if design.description %}
+                      <p class="design-desc">{{ design.description }}</p>
+                      {% endif %}
+                      {% if design.features_list %}
+                      <div class="design-tags">
+                        {% for feature in design.features_list %}
+                        <span class="design-tag">{{ feature }}</span>
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+                    </div>
+                    <div class="design-action-icon">
+                      <i class="fas fa-search-plus"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          <div class="design-see-more-container">
+            <button class="design-see-more-btn" id="designSeeMoreBtn" type="button">
+              <span class="btn-text">View All Designs</span>
+              <i class="fas fa-chevron-down btn-icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Certificate Lightbox Modal -->
+  <div class="cert-lightbox" id="certLightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image"><i
+          class="fas fa-chevron-left"></i></button>
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image"><i
+          class="fas fa-chevron-right"></i></button>
+      <button class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></button>
+      <div class="lightbox-image-container">
+        <img src="" alt="Certificate preview" class="lightbox-image" id="lightboxImage" />
+      </div>
+      <div class="lightbox-details" id="lightboxDetails" style="display: none;">
+        <h3 class="lightbox-title" id="lightboxTitle"></h3>
+        <p class="lightbox-desc" id="lightboxDesc"></p>
+        <div class="lightbox-tags" id="lightboxTags"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Card Modal -->
+  <div class="business-card-modal" id="businessCardModal">
+    <div class="modal-content">
+      <button class="modal-download" onclick="downloadBusinessCard()" title="Download Business Card"><i
+          class="fas fa-download"></i></button>
+      <button class="modal-close" onclick="closeBusinessCard()"><i class="fas fa-times"></i></button>
+      <div class="business-card-container">
+        <img src="{% static 'core/images/V_card.png' %}" alt="Sanjaya Kandel Business Card"
+          class="business-card-image" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2 class="section-title fade-up">Contact</h2>
+      </div>
+
+      {% if messages %}
+      <div class="form-messages" style="max-width:600px;margin:0 auto 20px;">
+        {% for message in messages %}
+        <div class="notification-static {{ message.tags }}"
+          style="padding:14px 18px;border-radius:10px;margin-bottom:10px;background:{% if message.tags == 'success' %}var(--brand-color){% else %}#ff4757{% endif %};color:#fff;">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="contact-grid">
+        <div class="contact-info-card fade-up delay-2">
+          <div class="contact-profile">
+            <h3>{{ site.full_name }}</h3>
+          </div>
+          <div class="contact-methods">
+            <a href="mailto:{{ site.email }}" class="contact-method" target="_blank">
+              <div class="contact-method-icon"><i class="fas fa-envelope"></i></div>
+              <span class="contact-method-text">{{ site.email }}</span>
+            </a>
+            {% if site.phone %}
+            <a href="tel:{{ site.phone }}" class="contact-method" target="_blank">
+              <div class="contact-method-icon"><i class="fas fa-phone"></i></div>
+              <span class="contact-method-text">{{ site.phone }}</span>
+            </a>
+            {% else %}
+            <div class="contact-method">
+              <div class="contact-method-icon"><i class="fas fa-phone"></i></div>
+              <span class="contact-method-text">Available on Request</span>
+            </div>
+            {% endif %}
+            {% if site.whatsapp_link %}
+            <a href="{{ site.whatsapp_link }}" class="contact-method" target="_blank">
+              <div class="contact-method-icon"><i class="fab fa-whatsapp"></i></div>
+              <span class="contact-method-text">WhatsApp Chat</span>
+            </a>
+            {% endif %}
+            <div class="contact-method">
+              <div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <span class="contact-method-text">{{ site.location }}</span>
+            </div>
+            <div class="contact-method view-business-card-btn" onclick="openBusinessCard()">
+              <div class="contact-method-icon"><i class="fas fa-id-card"></i></div>
+              <span class="contact-method-text">View Business Card</span>
+            </div>
+            <div class="contact-social-section">
+              <div class="contact-social-links">
+                {% if site.github_url %}<a href="{{ site.github_url }}" class="contact-social-link" target="_blank"
+                  title="GitHub"><i class="fab fa-github"></i></a>{% endif %}
+                {% if site.youtube_url %}<a href="{{ site.youtube_url }}" class="contact-social-link" target="_blank"
+                  title="YouTube"><i class="fab fa-youtube"></i></a>{% endif %}
+                {% if site.tiktok_url %}<a href="{{ site.tiktok_url }}" class="contact-social-link" target="_blank"
+                  title="TikTok"><i class="fab fa-tiktok"></i></a>{% endif %}
+                <a href="mailto:{{ site.email }}" class="contact-social-link" title="Email"><i
+                    class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card fade-up delay-3">
+          <div class="contact-form-header">
+            <h3>Get in Touch</h3>
+          </div>
+          <form id="contact-form" class="contact-form" action="{% url 'contact_submit' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="name"><span>Name *</span><span class="form-error">Please enter your name</span></label>
+              <input type="text" id="name" name="name" required placeholder="Eg. John Doe" />
+            </div>
+            <div class="form-group">
+              <label for="email"><span>Email *</span><span class="form-error">Please enter a valid email
+                  address</span></label>
+              <input type="email" id="email" name="email" required placeholder="Eg. john@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="message"><span>Message *</span><span class="form-error">Message must be at least 5
+                  characters</span></label>
+              <textarea id="message" name="message" required placeholder="Eg. Your message here..."></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="contactSubmit">
+              <span class="btn-content"><span class="btn-text">Send Message</span><i
+                  class="fas fa-paper-plane btn-icon"></i></span>
+              <div class="btn-loading"><i class="fas fa-spinner fa-spin"></i><span>Sending...</span></div>
+            </button>
+          </form>
+        </div>
+      </div>
+  </section>
+
+  <!-- Neon Glowing News Marquee -->
+  <div class="neon-marquee-container">
+    <div class="neon-marquee-title">
+      <i class="fas fa-code"></i> Specializations
+    </div>
+    <div class="neon-marquee-content">
+      <!-- Group 1 -->
+      <span class="neon-marquee-item"><i class="fas fa-circle-notch fa-spin"></i> Open for Freelance &amp;
+        Collaborations!</span>
+      <span class="neon-marquee-item"><i class="fas fa-graduation-cap"></i> Pursuing BSc. CSIT at Tribhuvan University
+        (Nepal)</span>
+      <span class="neon-marquee-item"><i class="fas fa-code"></i> Full-Stack Web Development (Django, Flask, React,
+        Node.js)</span>
+      <span class="neon-marquee-item"><i class="fas fa-robot"></i> Expert in AI Integrations &amp; Automated
+        Workflows</span>
+      <span class="neon-marquee-item"><i class="fas fa-envelope"></i> Let's work together:
+        kandelsanjaya7@gmail.com</span>
+      <!-- Group 2 (Duplicate for seamless loop) -->
+      <span class="neon-marquee-item"><i class="fas fa-circle-notch fa-spin"></i> Open for Freelance &amp;
+        Collaborations!</span>
+      <span class="neon-marquee-item"><i class="fas fa-graduation-cap"></i> Pursuing BSc. CSIT at Tribhuvan University
+        (Nepal)</span>
+      <span class="neon-marquee-item"><i class="fas fa-code"></i> Full-Stack Web Development (Django, Flask, React,
+        Node.js)</span>
+      <span class="neon-marquee-item"><i class="fas fa-robot"></i> Expert in AI Integrations &amp; Automated
+        Workflows</span>
+      <span class="neon-marquee-item"><i class="fas fa-envelope"></i> Let's work together:
+        kandelsanjaya7@gmail.com</span>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer-section">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <a href="https://kandelsanjaya.com.np/" title="Sanjaya Kandel Portfolio">
+              <img src="{% static 'core/images/logo.png' %}" alt="Sanjaya Kandel logo"
+                style="height: 48px; width: auto; filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.7)); display: block;" />
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <ul class="social-links">
+              {% if site.github_url %}<li><a href="{{ site.github_url }}" target="_blank" rel="noopener"><i
+                    class="fab fa-github"></i> GitHub</a></li>{% endif %}
+              {% if site.youtube_url %}<li><a href="{{ site.youtube_url }}" target="_blank" rel="noopener"><i
+                    class="fab fa-youtube"></i> YouTube</a></li>{% endif %}
+              {% if site.tiktok_url %}<li><a href="{{ site.tiktok_url }}" target="_blank" rel="noopener"><i
+                    class="fab fa-tiktok"></i> TikTok</a></li>{% endif %}
+              <li><a href="mailto:{{ site.email }}"><i class="fas fa-envelope"></i> Email</a></li>
+            </ul>
+          </div>
+          <div class="footer-column footer-contact">
+            <h4>Get in Touch</h4>
+            <ul class="contact-info">
+              <li><a href="mailto:{{ site.email }}" target="_blank"><i class="fas fa-envelope"></i> {{ site.email }}</a>
+              </li>
+              <li>
+                <address itemscope itemtype="https://schema.org/PostalAddress" class="footer-address">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span itemprop="addressCountry">{{ site.location }}</span>
+                </address>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="copyright">
+          <p>&copy; <span id="current-year"></span> {{ site.full_name }}. All rights reserved.</p>
+        </div>
+        <div class="footer-credits">
+          <p>Designed with <i class="fas fa-heart"></i> by <strong>{{ site.full_name }}</strong></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'core/js/main.js' %}?v=1.5"></script>
+  <script src="{% static 'core/js/animations.js' %}?v=1.5"></script>
+  <script src="{% static 'core/js/hero.js' %}?v=1.5"></script>
+  <script src="{% static 'core/js/contact.js' %}?v=1.5"></script>
+
+  <!-- Dasa AI Floating RAG Chatbot Widget -->
+  <div class="meta-chatbot-widget" id="metaChatbotWidget">
+    <button class="meta-chatbot-toggle" id="metaChatbotToggle" aria-label="Toggle Dasa AI Assistant">
+      <span class="meta-gradient-ring"></span>
+      <img src="{% static 'core/images/gold_flower.png' %}?v=1.6" class="bot-icon"
+        style="width:50px; height:50px; object-fit:contain;" />
+      <i class="fas fa-times close-icon"></i>
+    </button>
+
+    <div class="meta-chatbot-window" id="metaChatbotWindow">
+      <div class="meta-chat-header">
+        <div class="meta-chat-header-info">
+          <div class="meta-chat-avatar"><img src="{% static 'core/images/logo.png' %}"
+              style="width:100%; height:100%; object-fit:contain; border-radius:50%;" /></div>
+          <div class="meta-chat-title-group">
+            <h4>Dasa AI <span class="meta-chat-badge">RAG</span></h4>
+            <div class="meta-chat-status">Sanjaya's Assistant • Online</div>
+          </div>
+        </div>
+        <div class="meta-chat-header-actions">
+          <button id="metaChatCloseBtn" title="Close"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+
+      <div class="meta-chat-chips" id="metaChatChips">
+        <button class="meta-chip" data-question="Who is Sanjaya Kandel?">Who is Sanjaya?</button>
+        <button class="meta-chip" data-question="What are his core technical skills?">Technical Skills</button>
+        <button class="meta-chip" data-question="Tell me about his academic education background.">Education</button>
+        <button class="meta-chip" data-question="What web projects has Sanjaya built?">Projects</button>
+        <button class="meta-chip" data-question="How can I hire or contact Sanjaya?">Contact & Hire</button>
+      </div>
+
+      <div class="meta-chat-messages" id="metaChatMessages">
+        <div class="meta-msg bot-msg">
+          <div class="meta-msg-avatar"><i class="fas fa-robot"></i></div>
+          <div class="meta-msg-bubble">
+            👋 Hi! I am <strong>Dasa AI</strong>, Sanjaya's virtual assistant. Ask me anything about Sanjaya's
+            professional skills, academic background, projects, or experience!
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-chat-input-area">
+        <input type="text" id="metaChatInput" placeholder="Ask Dasa AI about Sanjaya..." autocomplete="off" />
+        <button class="meta-chat-send-btn" id="metaChatSendBtn" aria-label="Send message">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      <div class="meta-chat-footer-note">
+        🔒 Private personal contacts are protected • Professional RAG AI Engine
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'core/js/chatbot.js' %}?v=1.5"></script>
+
+  <script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    function openBusinessCard() {
+      document.getElementById("businessCardModal").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+    function closeBusinessCard() {
+      document.getElementById("businessCardModal").classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+    function downloadBusinessCard() {
+      const link = document.createElement("a");
+      link.href = "{% static 'core/images/V_card.png' %}";
+      link.download = "Sanjaya_Kandel_Business_Card.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    document.getElementById("businessCardModal").addEventListener("click", function (e) {
+      if (e.target === this) closeBusinessCard();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeBusinessCard();
+    });
+  </script>
+</body>
+
+</html>
