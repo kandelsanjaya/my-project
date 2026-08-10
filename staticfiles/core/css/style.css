@@ -2035,52 +2035,54 @@ main > section#contact {
   position: relative;
   width: 100%;
   aspect-ratio: 19.5 / 9;
-  background: #0f172a;
-  border-radius: 32px;
-  padding: 10px 16px;
+  background: #090d16;
+  border-radius: 28px;
+  padding: 5px;
   box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.75),
-    0 0 30px rgba(0, 243, 255, 0.25),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.15);
-  border: 4px solid #1e293b;
-  outline: 1px solid rgba(0, 243, 255, 0.4);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    0 20px 45px rgba(0, 0, 0, 0.85),
+    0 0 30px rgba(0, 243, 255, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  border: 3px solid #1e293b;
+  outline: 1px solid rgba(0, 243, 255, 0.3);
+  transition: none !important;
 }
 
 .iphone-landscape-frame:hover {
-  transform: translateY(-50px) scale(1.02);
+  transform: none !important;
   box-shadow: 
-    0 30px 60px -15px rgba(0, 0, 0, 0.85),
-    0 0 40px rgba(0, 255, 136, 0.35),
-    inset 0 0 0 2px rgba(0, 255, 136, 0.4);
-  border-color: #0f172a;
+    0 20px 45px rgba(0, 0, 0, 0.85),
+    0 0 30px rgba(0, 243, 255, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+  border-color: #1e293b !important;
 }
 
-/* iPhone Dynamic Island / Notch Pill on RIGHT Edge (Matching Sketch) */
+/* iPhone Dynamic Island / Notch Pill on RIGHT Edge (iPhone 17 Pro Max Style) */
 .iphone-notch-pill.right-notch {
   position: absolute;
   left: auto;
-  right: 14px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 12px;
-  height: 38px;
+  width: 8px;
+  height: 26px;
   background: #000;
   border-radius: 20px;
   z-index: 10;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+  pointer-events: none;
 }
 
 .iphone-camera-dot.right-dot {
   position: absolute;
   left: auto;
-  right: 18px;
-  top: calc(50% - 10px);
-  width: 4px;
-  height: 4px;
+  right: 14px;
+  top: calc(50% - 7px);
+  width: 3px;
+  height: 3px;
   background: #1e293b;
   border-radius: 50%;
   z-index: 11;
+  pointer-events: none;
 }
 
 /* iPhone Hardware Side Buttons */
@@ -2200,33 +2202,135 @@ main > section#contact {
 }
 
 /* ==========================================
-   3 STAT CARDS DIRECTLY BELOW THE PHONE FRAME
+   3 INDIVIDUAL SQUARE STAT CARDS (SAME HEIGHT & WIDTH)
+   WITH CLOCKWISE NEON WATER STREAM BORDER
 ========================================== */
+@keyframes rotateNeonStream {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .right-stats-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   width: 100%;
-  max-width: 520px;
-  margin-top: 6px;
+  max-width: 500px;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.right-stats-cards::before {
+  display: none !important;
 }
 
 .stat-card-box {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 243, 255, 0.3);
-  border-radius: 18px;
-  padding: 18px 10px;
+  position: relative;
+  border-radius: 22px;
+  padding: 3px; /* Holds the neon border stream */
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1 / 1; /* PERFECT SQUARE BOX (Exact Same Height & Width!) */
+  width: 100%;
+  max-width: 140px;
+  height: 140px; /* Identical fixed 1:1 height & width square */
+  margin: 0 auto;
+  background: #090d16;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 136, 0.15);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Clockwise Rotating Green Neon Water Flow Stream */
+.stat-card-box .neon-water-border {
+  position: absolute;
+  top: -75%;
+  left: -75%;
+  width: 250%;
+  height: 250%;
+  z-index: 1;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 220deg,
+    rgba(0, 255, 136, 0.4) 270deg,
+    #00ff88 320deg,
+    #00f3ff 355deg,
+    transparent 360deg
+  );
+  animation: rotateNeonStream 3s linear infinite;
+  pointer-events: none;
+}
+
+/* Neon Blur Glow Effect */
+.stat-card-box .neon-water-glow {
+  position: absolute;
+  top: -75%;
+  left: -75%;
+  width: 250%;
+  height: 250%;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 220deg,
+    rgba(0, 255, 136, 0.6) 290deg,
+    #00ff88 340deg,
+    #00f3ff 358deg,
+    transparent 360deg
+  );
+  animation: rotateNeonStream 3s linear infinite;
+  filter: blur(12px);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Staggered Water Flow Delays (Sequential Clockwise Steps across cards) */
+.stat-card-step-1 .neon-water-border,
+.stat-card-step-1 .neon-water-glow {
+  animation-delay: 0s;
+}
+
+.stat-card-step-2 .neon-water-border,
+.stat-card-step-2 .neon-water-glow {
+  animation-delay: -1s;
+}
+
+.stat-card-step-3 .neon-water-border,
+.stat-card-step-3 .neon-water-glow {
+  animation-delay: -2s;
+}
+
+/* Inner Content Card (Sits inside the 3px padding border) */
+.stat-card-inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  background: #0b1120;
+  border-radius: 19px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 243, 255, 0.1);
-  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 12px 6px;
+  box-sizing: border-box;
 }
 
 .stat-card-box:hover {
-  transform: translateY(-5px);
-  border-color: rgba(0, 255, 136, 0.6);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 255, 136, 0.25);
+  transform: translateY(-5px) scale(1.04) !important;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 136, 0.5);
 }
 
 .stat-number-wrap {
@@ -2237,7 +2341,7 @@ main > section#contact {
 }
 
 .stat-card-box .stat-number {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   font-weight: 800;
   line-height: 1;
   background: linear-gradient(135deg, #00f3ff, #00ff88);
@@ -2246,19 +2350,21 @@ main > section#contact {
 }
 
 .stat-card-box .stat-suffix {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: #00ff88;
 }
 
 .stat-card-label {
-  font-size: 0.85rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: lowercase;
   margin-top: 8px;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
 }
+
 
 /* Mobile Responsiveness */
 @media (max-width: 992px) {

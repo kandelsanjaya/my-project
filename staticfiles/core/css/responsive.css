@@ -1248,59 +1248,104 @@
     align-items: start;
 }
 
+/* Default Widescreen & Desktop Layout */
 .iphone-landscape-wrapper {
     width: 100%;
-    max-width: 520px;
+    max-width: 500px;
 }
 
 .iphone-landscape-frame {
+    position: relative;
     width: 100%;
-    max-width: 520px;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 19.5 / 9;
+    background: #090d16;
     border-radius: 28px;
-    padding: 10px 14px;
+    padding: 5px;
+    box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.85),
+        0 0 30px rgba(0, 243, 255, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    border: 3px solid #1e293b;
+    outline: 1px solid rgba(0, 243, 255, 0.3);
+    transition: none !important;
+}
+
+.iphone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 23px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 .iphone-notch-pill.right-notch {
+    position: absolute;
     right: 12px;
     left: auto;
     top: 50%;
     transform: translateY(-50%);
-    width: 12px;
-    height: 38px;
+    width: 8px;
+    height: 26px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 10;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+}
+
+.iphone-camera-dot.right-dot {
+    position: absolute;
+    right: 14px;
+    left: auto;
+    top: calc(50% - 7px);
+    width: 3px;
+    height: 3px;
+    background: #1e293b;
+    border-radius: 50%;
+    z-index: 11;
+    pointer-events: none;
 }
 
 .right-stats-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px;
     width: 100%;
-    max-width: 520px;
-    margin-top: 18px;
+    max-width: 480px;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.right-stats-cards::before {
+    display: none !important;
 }
 
 .stat-card-box {
-    background: rgba(15, 23, 42, 0.75);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(0, 243, 255, 0.35);
-    border-radius: 16px;
-    padding: 16px 8px;
-    text-align: center;
+    position: relative;
+    border-radius: 20px;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 1 / 1 !important;
+    width: 100% !important;
+    max-width: 140px;
+    height: 140px !important;
+    margin: 0 auto;
+    background: #090d16;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 136, 0.15);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-.stat-card-box .stat-number {
-    font-size: 1.8rem;
-    font-weight: 800;
-}
-
-.stat-card-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: lowercase;
-}
-
-/* Tablet Screens (max-width: 992px) */
+/* Tablet & Mobile Screens */
 @media (max-width: 992px) {
     .about-grid-layout {
         grid-template-columns: 1fr 1fr;
@@ -1308,34 +1353,51 @@
     }
 }
 
-/* Mobile Screens (max-width: 768px) */
 @media (max-width: 768px) {
     .about-grid-layout {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    
     .about-text {
         text-align: center;
     }
-
     .about-right-column {
         width: 100%;
         align-items: center;
     }
-
     .iphone-landscape-wrapper {
         max-width: 440px;
     }
-
+    /* Mobile Seamless Blended iPhone Video Frame */
     .iphone-landscape-frame {
         max-width: 440px;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 19.5 / 9;
+        border-radius: 22px;
+        padding: 2px;
+        border: 2px solid rgba(30, 41, 59, 0.95);
+        outline: none;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 243, 255, 0.15);
+        background: #000;
     }
-
+    .iphone-screen {
+        border-radius: 20px;
+        box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.95);
+    }
+    .iphone-notch-pill.right-notch {
+        right: 8px;
+        width: 6px;
+        height: 20px;
+        border-radius: 10px;
+    }
+    .iphone-camera-dot.right-dot {
+        right: 10px;
+        top: calc(50% - 5px);
+        width: 2px;
+        height: 2px;
+    }
     .right-stats-cards {
         max-width: 440px;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 10px;
     }
 }
@@ -1345,30 +1407,51 @@
     .iphone-landscape-wrapper {
         max-width: 100%;
     }
-
+    /* Realistic Edge-to-Edge iPhone Screen Blend */
     .iphone-landscape-frame {
         max-width: 100%;
-        aspect-ratio: 16 / 9;
-        border-radius: 20px;
-        padding: 6px 10px;
+        aspect-ratio: 19.5 / 9;
+        border-radius: 18px;
+        padding: 2px;
+        border: 1.5px solid rgba(30, 41, 59, 0.9);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85), 0 0 15px rgba(0, 243, 255, 0.12);
+        background: #000;
     }
-
+    .iphone-screen {
+        border-radius: 16px;
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9);
+    }
+    .iphone-notch-pill.right-notch {
+        right: 6px;
+        width: 5px;
+        height: 16px;
+    }
+    .iphone-camera-dot.right-dot {
+        right: 8px;
+        top: calc(50% - 4px);
+        width: 2px;
+        height: 2px;
+    }
     .right-stats-cards {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 6px;
     }
-
     .stat-card-box {
-        padding: 12px 4px;
-        border-radius: 12px;
+        height: 105px !important;
+        max-width: 105px;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 14px;
     }
-
+    .stat-card-inner {
+        padding: 8px 3px !important;
+        border-radius: 11px !important;
+    }
     .stat-card-box .stat-number {
-        font-size: 1.3rem;
+        font-size: 1.2rem !important;
     }
-
     .stat-card-label {
-        font-size: 0.68rem;
+        font-size: 0.62rem !important;
+        margin-top: 4px !important;
     }
 }
 

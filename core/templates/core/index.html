@@ -613,17 +613,17 @@
 
             <!-- Right Column: Landscape Phone Frame + 3 Stat Cards Below It -->
             <div class="about-right-column fade-right delay-2" style="display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%;">
-              <div class="iphone-landscape-wrapper" style="width: 100%; max-width: 500px;">
-                <div class="iphone-landscape-frame" style="position: relative; width: 100%; aspect-ratio: 19.5 / 9; background: #090d16; border-radius: 28px; padding: 5px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 243, 255, 0.2); border: 3px solid #1e293b; outline: 1px solid rgba(0, 243, 255, 0.3);">
+              <div class="iphone-landscape-wrapper">
+                <div class="iphone-landscape-frame">
                   <!-- Hardware Details: iPhone 17 Pro Max Dynamic Island -->
                   <div class="iphone-notch-pill right-notch" title="Dynamic Island"></div>
                   <div class="iphone-camera-dot right-dot"></div>
 
                   <!-- Screen Display (Edge-to-Edge) -->
-                  <div class="iphone-screen" style="position: relative; width: 100%; height: 100%; border-radius: 23px; overflow: hidden; background: #000; cursor: pointer;" onclick="openVideoFullscreen()">
+                  <div class="iphone-screen" id="heroVideoContainer" onclick="openVideoFullscreen()">
                     {% if site.get_hero_video_url %}
                       {% if site.is_hero_video_youtube %}
-                      <iframe src="{{ site.hero_video_embed_url }}?autoplay=1&mute=1&loop=1" title="Sanjaya Kandel Intro Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; border:none; object-fit:cover;"></iframe>
+                      <iframe id="heroIntroIframe" src="{{ site.hero_video_embed_url }}?autoplay=1&mute=1&loop=1&enablejsapi=1" title="Sanjaya Kandel Intro Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; border:none; object-fit:cover;"></iframe>
                       {% else %}
                       <video id="heroIntroVideo" autoplay muted loop playsinline poster="{% if site.profile_photo %}{{ site.profile_photo.url }}{% else %}{% static 'core/images/me_good.jpg' %}{% endif %}" style="width:100%; height:100%; border:none; object-fit:cover;" onclick="openVideoFullscreen(this)">
                         <source src="{{ site.get_hero_video_url }}" type="video/mp4">
@@ -1228,25 +1228,117 @@
     document.getElementById("current-year").textContent = new Date().getFullYear();
 
     function openVideoFullscreen(videoElem) {
-      const vid = videoElem || document.getElementById("heroIntroVideo");
-      if (!vid) return;
-      vid.muted = false;
-      vid.play().catch(e => console.log(e));
-      if (vid.requestFullscreen) {
-        vid.requestFullscreen();
-      } else if (vid.webkitRequestFullscreen) {
-        vid.webkitRequestFullscreen();
-      } else if (vid.msRequestFullscreen) {
-        vid.msRequestFullscreen();
+      const vid = (videoElem && videoElem.tagName === "VIDEO") ? videoElem : document.getElementById("heroIntroVideo");
+      const iframe = document.getElementById("heroIntroIframe");
+
+      if (vid && vid.tagName === "VIDEO") {
+        vid.muted = false;
+        vid.volume = 1.0;
+        vid.play().catch(function(e) { console.log("Video play error:", e); });
+
+        if (vid.requestFullscreen) {
+          vid.requestFullscreen();
+        } else if (vid.webkitEnterFullscreen) {
+          vid.webkitEnterFullscreen();
+        } else if (vid.webkitRequestFullscreen) {
+          vid.webkitRequestFullscreen();
+        } else if (vid.msRequestFullscreen) {
+          vid.msRequestFullscreen();
+        }
+      } else if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+        iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+        const container = document.getElementById("heroVideoContainer") || iframe;
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        }
       }
     }
 
-    document.addEventListener("fullscreenchange", function () {
+    function muteAllVideos() {
       const vid = document.getElementById("heroIntroVideo");
-      if (!vid) return;
-      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (vid && vid.tagName === "VIDEO") {
         vid.muted = true;
-        vid.play().catch(e => console.log(e));
+        vid.volume = 0;
+      }
+      const iframe = document.getElementById("heroIntroIframe");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+        iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[0]}', '*');
+      }
+      document.querySelectorAll("video").forEach(function(v) {
+        v.muted = true;
+        v.volume = 0;
+      });
+    }
+
+    // Scroll listener: instantly mute sound & reset volume to 0 when scrolling website (mobile & laptop)
+    let isScrollMuting = false;
+    window.addEventListener("scroll", function () {
+      if (!isScrollMuting) {
+        isScrollMuting = true;
+        muteAllVideos();
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen().catch(function(){});
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+        setTimeout(function () { isScrollMuting = false; }, 100);
+      }
+    }, { passive: true });
+
+    window.addEventListener("touchmove", function () {
+      muteAllVideos();
+    }, { passive: true });
+
+    // Fullscreen change listener: sound loud in fullscreen preview, muted when outside/exiting
+    function handleFullscreenChange() {
+      const isFs = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+      const vid = document.getElementById("heroIntroVideo");
+      const iframe = document.getElementById("heroIntroIframe");
+
+      if (!isFs) {
+        muteAllVideos();
+        if (vid) vid.play().catch(function(e){ console.log(e); });
+      } else {
+        if (vid) {
+          vid.muted = false;
+          vid.volume = 1.0;
+          vid.play().catch(function(e){ console.log(e); });
+        }
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+          iframe.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+        }
+      }
+    }
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+    // Initial page load setup for mobile & laptop
+    document.addEventListener("DOMContentLoaded", function () {
+      const vid = document.getElementById("heroIntroVideo");
+      if (vid) {
+        vid.muted = true;
+        vid.volume = 0;
+        vid.loop = true;
+        vid.playsInline = true;
+        vid.play().catch(function(e) { console.log("Initial autoplay muted:", e); });
+
+        vid.addEventListener("ended", function () {
+          vid.currentTime = 0;
+          vid.play().catch(function(e) { console.log(e); });
+        });
+
+        vid.addEventListener("webkitendfullscreen", function () {
+          vid.muted = true;
+          vid.volume = 0;
+          vid.play().catch(function(e) { console.log(e); });
+        });
       }
     });
 

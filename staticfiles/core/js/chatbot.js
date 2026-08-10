@@ -400,31 +400,21 @@
             }
         });
 
-        // Event delegation for Header Action Buttons (New Chat, Theme Switcher, Close)
-        document.addEventListener('click', function (e) {
-            const targetBtn = e.target.closest('#metaChatNewBtn, #metaChatThemeBtn, #metaChatCloseBtn');
-            if (!targetBtn) return;
+        closeBtn.addEventListener('click', function () {
+            widget.classList.remove('active');
+        });
 
-            if (targetBtn.id === 'metaChatNewBtn') {
-                e.preventDefault();
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function () {
                 clearMemory();
                 if (messagesContainer) {
                     messagesContainer.innerHTML = '';
-                    const welcomeMsg = `✨ **New Conversation Started!**\n\nHello! I am **Dasa AI 2.0**, Sanjaya's memory-aware assistant. What would you like to ask about Sanjaya today?`;
+                    const welcomeMsg = `🔄 **Memory Reset Complete!**\n\nHello! I am **Dasa AI 2.0**, Sanjaya's memory-aware assistant. What would you like to ask about Sanjaya today?`;
                     renderMessageDiv(welcomeMsg, 'bot', false);
                 }
                 playChime('bot');
-            } else if (targetBtn.id === 'metaChatThemeBtn') {
-                e.preventDefault();
-                currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
-                const nextTheme = THEMES[currentThemeIndex];
-                applyTheme(nextTheme);
-                playChime('bot');
-            } else if (targetBtn.id === 'metaChatCloseBtn') {
-                e.preventDefault();
-                if (widget) widget.classList.remove('active');
-            }
-        });
+            });
+        }
 
         function playChime(sender) {
             try {
