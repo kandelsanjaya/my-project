@@ -1235,4 +1235,142 @@
         padding: 0.25rem 0.6rem;
     }
 }
+
+/* =========================================================
+   IPHONE FRAME & STAT CARDS MATCHING PHOTO 2 SKETCH
+   ========================================================= */
+
+/* Default Widescreen & Tablet Layout */
+.about-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+    align-items: start;
+}
+
+.iphone-landscape-wrapper {
+    width: 100%;
+    max-width: 520px;
+}
+
+.iphone-landscape-frame {
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 16 / 9;
+    border-radius: 28px;
+    padding: 10px 14px;
+}
+
+.iphone-notch-pill.right-notch {
+    right: 12px;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 38px;
+}
+
+.right-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 520px;
+    margin-top: 18px;
+}
+
+.stat-card-box {
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 243, 255, 0.35);
+    border-radius: 16px;
+    padding: 16px 8px;
+    text-align: center;
+}
+
+.stat-card-box .stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.stat-card-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: lowercase;
+}
+
+/* Tablet Screens (max-width: 992px) */
+@media (max-width: 992px) {
+    .about-grid-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+}
+
+/* Mobile Screens (max-width: 768px) */
+@media (max-width: 768px) {
+    .about-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .about-text {
+        text-align: center;
+    }
+
+    .about-right-column {
+        width: 100%;
+        align-items: center;
+    }
+
+    .iphone-landscape-wrapper {
+        max-width: 440px;
+    }
+
+    .iphone-landscape-frame {
+        max-width: 440px;
+        aspect-ratio: 16 / 9;
+    }
+
+    .right-stats-cards {
+        max-width: 440px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+}
+
+/* Small Mobile Screens (max-width: 480px) */
+@media (max-width: 480px) {
+    .iphone-landscape-wrapper {
+        max-width: 100%;
+    }
+
+    .iphone-landscape-frame {
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 20px;
+        padding: 6px 10px;
+    }
+
+    .right-stats-cards {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+
+    .stat-card-box {
+        padding: 12px 4px;
+        border-radius: 12px;
+    }
+
+    .stat-card-box .stat-number {
+        font-size: 1.3rem;
+    }
+
+    .stat-card-label {
+        font-size: 0.68rem;
+    }
+}
+
+
     

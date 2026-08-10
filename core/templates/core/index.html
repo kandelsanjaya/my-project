@@ -86,11 +86,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=1.7" />
-  <link rel="stylesheet" href="{% static 'core/css/loader.css' %}?v=1.9" />
-  <link rel="stylesheet" href="{% static 'core/css/responsive.css' %}?v=1.7" />
-  <link rel="stylesheet" href="{% static 'core/css/animations.css' %}?v=1.7" />
-  <link rel="stylesheet" href="{% static 'core/css/chatbot.css' %}?v=2.0" />
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=10.0" />
+  <link rel="stylesheet" href="{% static 'core/css/loader.css' %}?v=10.0" />
+  <link rel="stylesheet" href="{% static 'core/css/responsive.css' %}?v=10.0" />
+  <link rel="stylesheet" href="{% static 'core/css/animations.css' %}?v=10.0" />
+  <link rel="stylesheet" href="{% static 'core/css/chatbot.css' %}?v=10.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 </head>
 
@@ -587,10 +587,12 @@
           <h2 class="section-title">About Me</h2>
         </div>
         <div class="about-container">
-          <div class="about-top-row">
-            <div class="about-content fade-left delay-1">
-              <div class="about-text">
-                <h3>Who Am I?</h3>
+          <!-- Top Row: About Me Text (Left) + Landscape iPhone Intro Video Frame (Right) -->
+          <div class="about-grid-layout" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; align-items: start;">
+            <!-- Left Column: Biography Text -->
+            <div class="about-text-column fade-left delay-1">
+              <div class="about-text" style="text-align: center; margin: 0 auto;">
+                <h3 style="font-size: 2.2rem; margin-bottom: 20px;">Who Am I?</h3>
                 {% if site.about_text %}
                 {{ site.about_text|linebreaks }}
                 {% else %}
@@ -603,26 +605,83 @@
                 <p>
                   I turn ideas into usable websites and applications: clean layouts,
                   responsive experiences, API-backed features, and visual systems
-                  that feel personal without becoming hard to maintain. I believe
-                  software should feel alive, fluid, and delightful to interact with.
+                  that feel personal without becoming hard to maintain.
                 </p>
                 {% endif %}
               </div>
             </div>
-            <div class="about-stats fade-right delay-2">
-              <div class="stats-container">
-                <div class="stat-item scale-in delay-1">
-                  <div class="stat-number" data-count="{{ projects_completed_count }}" data-plus="true">0</div>
-                  <div class="stat-label">Projects Completed</div>
+
+            <!-- Right Column: Landscape Phone Frame + 3 Stat Cards Below It -->
+            <div class="about-right-column fade-right delay-2" style="display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%;">
+              <div class="iphone-landscape-wrapper" style="width: 100%; max-width: 500px;">
+                <div class="iphone-landscape-frame" style="position: relative; width: 100%; aspect-ratio: 19.5 / 9; background: #090d16; border-radius: 28px; padding: 5px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 243, 255, 0.2); border: 3px solid #1e293b; outline: 1px solid rgba(0, 243, 255, 0.3);">
+                  <!-- Hardware Details: iPhone 17 Pro Max Dynamic Island -->
+                  <div class="iphone-notch-pill right-notch" title="Dynamic Island"></div>
+                  <div class="iphone-camera-dot right-dot"></div>
+
+                  <!-- Screen Display (Edge-to-Edge) -->
+                  <div class="iphone-screen" style="position: relative; width: 100%; height: 100%; border-radius: 23px; overflow: hidden; background: #000; cursor: pointer;" onclick="openVideoFullscreen()">
+                    {% if site.get_hero_video_url %}
+                      {% if site.is_hero_video_youtube %}
+                      <iframe src="{{ site.hero_video_embed_url }}?autoplay=1&mute=1&loop=1" title="Sanjaya Kandel Intro Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:100%; border:none; object-fit:cover;"></iframe>
+                      {% else %}
+                      <video id="heroIntroVideo" autoplay muted loop playsinline poster="{% if site.profile_photo %}{{ site.profile_photo.url }}{% else %}{% static 'core/images/me_good.jpg' %}{% endif %}" style="width:100%; height:100%; border:none; object-fit:cover;" onclick="openVideoFullscreen(this)">
+                        <source src="{{ site.get_hero_video_url }}" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                      </video>
+                      {% endif %}
+                    {% else %}
+                      <div class="iphone-placeholder-screen">
+                        <img src="{% if site.profile_photo %}{{ site.profile_photo.url }}{% else %}{% static 'core/images/me_good.jpg' %}{% endif %}" alt="Sanjaya Kandel" class="phone-bg-poster" />
+                        <div class="phone-play-overlay">
+                          <div class="play-pulse-ring"></div>
+                          <i class="fas fa-play"></i>
+                          <span>Intro Video Showcase</span>
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="iphone-glare-effect"></div>
                 </div>
-                <div class="stat-item scale-in delay-2">
-                  <div class="stat-number" data-count="{{ site.years_experience }}" data-plus="true">0</div>
-                  <div class="stat-label">Years Experience</div>
+              </div>
+
+              <!-- 3 Individual Square Stat Cards directly underneath the Phone Frame -->
+              <div class="right-stats-cards fade-up delay-3">
+                <!-- 1st: Project -->
+                <div class="stat-card-box stat-card-step-1 stat-item scale-in delay-1">
+                  <div class="neon-water-glow"></div>
+                  <div class="neon-water-border"></div>
+                  <div class="stat-card-inner">
+                    <div class="stat-number-wrap">
+                      <span class="stat-number" data-count="{{ projects_completed_count }}" data-plus="true">{{ projects_completed_count }}+</span>
+                    </div>
+                    <div class="stat-card-label">project</div>
+                  </div>
                 </div>
-                <div class="stat-item scale-in delay-3">
-                  <div class="stat-number" data-count="{{ site.client_satisfaction }}">0</div>
-                  <div class="stat-suffix">%</div>
-                  <div class="stat-label">Client Satisfaction</div>
+
+                <!-- 2nd: Years Experience -->
+                <div class="stat-card-box stat-card-step-2 stat-item scale-in delay-2">
+                  <div class="neon-water-glow"></div>
+                  <div class="neon-water-border"></div>
+                  <div class="stat-card-inner">
+                    <div class="stat-number-wrap">
+                      <span class="stat-number" data-count="{{ site.years_experience }}" data-plus="true">{{ site.years_experience }}+</span>
+                    </div>
+                    <div class="stat-card-label">years exp</div>
+                  </div>
+                </div>
+
+                <!-- 3rd: Client Satisfaction -->
+                <div class="stat-card-box stat-card-step-3 stat-item scale-in delay-3">
+                  <div class="neon-water-glow"></div>
+                  <div class="neon-water-border"></div>
+                  <div class="stat-card-inner">
+                    <div class="stat-number-wrap">
+                      <span class="stat-number" data-count="{{ site.client_satisfaction }}">{{ site.client_satisfaction }}</span>
+                      <span class="stat-suffix">%</span>
+                    </div>
+                    <div class="stat-card-label">client satisfaction</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1103,10 +1162,10 @@
     </div>
   </footer>
 
-  <script src="{% static 'core/js/main.js' %}?v=1.5"></script>
-  <script src="{% static 'core/js/animations.js' %}?v=1.5"></script>
-  <script src="{% static 'core/js/hero.js' %}?v=1.5"></script>
-  <script src="{% static 'core/js/contact.js' %}?v=1.5"></script>
+  <script src="{% static 'core/js/main.js' %}?v=3.5"></script>
+  <script src="{% static 'core/js/animations.js' %}?v=3.5"></script>
+  <script src="{% static 'core/js/hero.js' %}?v=3.5"></script>
+  <script src="{% static 'core/js/contact.js' %}?v=3.5"></script>
 
   <!-- Dasa AI Floating RAG Chatbot Widget -->
   <div class="meta-chatbot-widget" id="metaChatbotWidget">
@@ -1128,6 +1187,7 @@
           </div>
         </div>
         <div class="meta-chat-header-actions">
+          <button id="metaChatResetBtn" title="Reset Memory & New Chat" style="margin-right: 6px;"><i class="fas fa-rotate-left"></i></button>
           <button id="metaChatCloseBtn" title="Close"><i class="fas fa-times"></i></button>
         </div>
       </div>
@@ -1162,10 +1222,33 @@
     </div>
   </div>
 
-  <script src="{% static 'core/js/chatbot.js' %}?v=2.0"></script>
+  <script src="{% static 'core/js/chatbot.js' %}?v=3.5"></script>
 
   <script>
     document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    function openVideoFullscreen(videoElem) {
+      const vid = videoElem || document.getElementById("heroIntroVideo");
+      if (!vid) return;
+      vid.muted = false;
+      vid.play().catch(e => console.log(e));
+      if (vid.requestFullscreen) {
+        vid.requestFullscreen();
+      } else if (vid.webkitRequestFullscreen) {
+        vid.webkitRequestFullscreen();
+      } else if (vid.msRequestFullscreen) {
+        vid.msRequestFullscreen();
+      }
+    }
+
+    document.addEventListener("fullscreenchange", function () {
+      const vid = document.getElementById("heroIntroVideo");
+      if (!vid) return;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        vid.muted = true;
+        vid.play().catch(e => console.log(e));
+      }
+    });
 
     function openBusinessCard() {
       document.getElementById("businessCardModal").classList.add("active");

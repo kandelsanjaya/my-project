@@ -248,6 +248,26 @@ class SiteSettings(models.Model):
             return self.hero_video.url
         return self.hero_video_url or None
 
+    @property
+    def is_hero_video_youtube(self):
+        url = self.get_hero_video_url
+        if url and ("youtube.com" in url or "youtu.be" in url):
+            return True
+        return False
+
+    @property
+    def hero_video_embed_url(self):
+        url = self.get_hero_video_url
+        if not url:
+            return ""
+        if "youtube.com/watch?v=" in url:
+            video_id = url.split("watch?v=")[1].split("&")[0]
+            return f"https://www.youtube.com/embed/{video_id}"
+        elif "youtu.be/" in url:
+            video_id = url.split("youtu.be/")[1].split("?")[0]
+            return f"https://www.youtube.com/embed/{video_id}"
+        return url
+
     class Meta:
         verbose_name = "Site Setting"
         verbose_name_plural = "Site Settings"

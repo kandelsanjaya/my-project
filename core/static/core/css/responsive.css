@@ -1235,4 +1235,142 @@
         padding: 0.25rem 0.6rem;
     }
 }
+
+/* =========================================================
+   IPHONE FRAME & STAT CARDS MATCHING PHOTO 2 SKETCH
+   ========================================================= */
+
+/* Default Widescreen & Tablet Layout */
+.about-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+    align-items: start;
+}
+
+.iphone-landscape-wrapper {
+    width: 100%;
+    max-width: 520px;
+}
+
+.iphone-landscape-frame {
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 16 / 9;
+    border-radius: 28px;
+    padding: 10px 14px;
+}
+
+.iphone-notch-pill.right-notch {
+    right: 12px;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 38px;
+}
+
+.right-stats-cards {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.right-stats-cards::before {
+    display: none !important;
+}
+
+.stat-card-box {
+    position: relative;
+    border-radius: 20px;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 1 / 1 !important;
+    width: 100% !important;
+    max-width: 140px;
+    height: 140px !important;
+    margin: 0 auto;
+    background: #090d16;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 136, 0.15);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Tablet & Mobile Screens */
+@media (max-width: 992px) {
+    .about-grid-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .about-text {
+        text-align: center;
+    }
+    .about-right-column {
+        width: 100%;
+        align-items: center;
+    }
+    .iphone-landscape-wrapper {
+        max-width: 440px;
+    }
+    .iphone-landscape-frame {
+        max-width: 440px;
+    }
+    .right-stats-cards {
+        max-width: 440px;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px;
+    }
+}
+
+/* Small Mobile Screens (max-width: 480px) */
+@media (max-width: 480px) {
+    .iphone-landscape-wrapper {
+        max-width: 100%;
+    }
+    .iphone-landscape-frame {
+        max-width: 100%;
+        border-radius: 18px;
+        padding: 4px;
+    }
+    .right-stats-cards {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px;
+    }
+    .stat-card-box {
+        height: 105px !important;
+        max-width: 105px;
+        aspect-ratio: 1 / 1 !important;
+        border-radius: 14px;
+    }
+    .stat-card-inner {
+        padding: 8px 3px !important;
+        border-radius: 11px !important;
+    }
+    .stat-card-box .stat-number {
+        font-size: 1.2rem !important;
+    }
+    .stat-card-label {
+        font-size: 0.62rem !important;
+        margin-top: 4px !important;
+    }
+}
+
+
     

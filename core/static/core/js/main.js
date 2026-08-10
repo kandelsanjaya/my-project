@@ -271,61 +271,47 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!element || element.classList.contains('counted')) return;
 
         let target = parseInt(element.getAttribute('data-count'));
+        if (isNaN(target) || target <= 0) return;
 
-        // Smooth counter animation duration (slower)
-        const totalDuration = 2500; // 2.5 seconds for all counters
-
-        // Check for + sign and % suffix
         const hasPlus = element.getAttribute('data-plus') === 'true';
-        const statItem = element.closest('.stat-item');
-        const suffix = statItem.querySelector('.stat-suffix');
+        const statBox = element.closest('.stat-item') || element.closest('.stat-card-box') || element.closest('.linear-stat-item');
+        const suffix = statBox ? statBox.querySelector('.stat-suffix') : null;
 
-        // Use easing function for smooth animation
+        const totalDuration = 1800; // 1.8 seconds
         const startTime = Date.now();
         const startValue = 0;
 
-        // Easing function for smooth acceleration and deceleration
         const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
         const animate = () => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / totalDuration, 1);
-
-            // Apply easing
             const easedProgress = easeOutCubic(progress);
             const current = Math.floor(startValue + (target - startValue) * easedProgress);
 
-            // Smooth opacity transition for number changes
-            element.style.transition = 'opacity 0.1s ease';
-            element.style.opacity = '0.7';
-
-            setTimeout(() => {
-                if (suffix) {
-                    element.textContent = current;
-                } else {
-                    element.textContent = current + (hasPlus ? '+' : '');
-                }
-
-                element.style.opacity = '1';
-            }, 50);
+            element.textContent = current + (hasPlus ? '+' : '');
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
             } else {
                 element.classList.add('counted');
-                // Final cleanup
-                setTimeout(() => {
-                    element.style.transition = '';
-                    element.style.opacity = '';
-                }, 100);
+                element.textContent = target + (hasPlus ? '+' : '');
             }
         };
 
-        // Start animation with a small delay to sync with fade-in
-        setTimeout(() => {
-            animate();
-        }, 300);
+        animate();
     };
+
+    // Auto-run observer for all stat-number elements on the page
+    setTimeout(() => {
+        const allStatNumbers = document.querySelectorAll('.stat-number');
+        allStatNumbers.forEach(el => {
+            const val = el.getAttribute('data-count');
+            if (val && parseInt(val) > 0) {
+                animateCounter(el);
+            }
+        });
+    }, 400);
 
     // Set dynamic age on page load
     calculateAge();
