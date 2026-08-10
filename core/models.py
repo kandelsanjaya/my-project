@@ -1,5 +1,10 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
+
+validate_image_ext = FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'])
+validate_video_ext = FileExtensionValidator(allowed_extensions=['mp4', 'webm', 'ogg', 'mov', 'm4v'])
+validate_doc_ext = FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'txt', 'png', 'jpg', 'jpeg', 'webp', 'mp4', 'webm'])
 
 
 class SiteVisit(models.Model):
@@ -63,7 +68,7 @@ class Certificate(models.Model):
     title = models.CharField(max_length=150)
     provider = models.CharField(max_length=150, blank=True)
     date_text = models.CharField(max_length=80, blank=True)
-    image = models.ImageField(upload_to="certificates/")
+    image = models.ImageField(upload_to="certificates/", validators=[validate_image_ext])
     # Static image path for production (used with {% static %})
     @property
     def static_image(self):
@@ -98,7 +103,7 @@ class Project(models.Model):
     title = models.CharField(max_length=150)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default="web")
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to="projects/", blank=True, null=True)
+    image = models.ImageField(upload_to="projects/", blank=True, null=True, validators=[validate_image_ext])
     @property
     def static_image(self):
         if not self.image:
@@ -119,6 +124,7 @@ class Project(models.Model):
         upload_to="projects/videos/",
         blank=True,
         null=True,
+        validators=[validate_video_ext],
         help_text="Upload demo video (MP4/WebM) for this project"
     )
     video_url = models.URLField(
@@ -159,11 +165,12 @@ class Document(models.Model):
     ]
     title = models.CharField(max_length=150)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default="cv")
-    file = models.FileField(upload_to="documents/", help_text="Upload your PDF, DOCX, or image document")
+    file = models.FileField(upload_to="documents/", validators=[validate_doc_ext], help_text="Upload your PDF, DOCX, or image document")
     video_file = models.FileField(
         upload_to="documents/videos/",
         blank=True,
         null=True,
+        validators=[validate_video_ext],
         help_text="Upload optional video file for this document"
     )
     video_url = models.URLField(
