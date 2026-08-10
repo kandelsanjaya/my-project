@@ -620,7 +620,11 @@
     <header class="header">
       <div class="header-inner">
         <div class="profile-photo">
-          <img src="{% static 'core/images/sanjaya_cv.jpg' %}" alt="{{ site.hero_name|default:'Sanjaya Kandel' }}">
+          {% if site.profile_photo %}
+          <img src="{{ site.profile_photo.url }}" alt="{{ site.full_name|default:'Sanjaya Kandel' }}">
+          {% else %}
+          <img src="{% static 'core/images/sanjaya_cv.jpg' %}" alt="{{ site.full_name|default:'Sanjaya Kandel' }}">
+          {% endif %}
           <div class="photo-placeholder">SK</div>
         </div>
         <div class="profile-info">

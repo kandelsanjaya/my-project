@@ -68,8 +68,17 @@ class Certificate(models.Model):
     @property
     def static_image(self):
         """Path relative to STATICFILES_DIRS for this certificate image."""
+        if not self.image:
+            return ''
         filename = self.image.name.split('/')[-1]
         return f'core/images/certificates/{filename}'
+
+    @property
+    def image_url(self):
+        if self.image:
+            return self.image.url
+        return f'/static/{self.static_image}'
+
     order = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
@@ -96,7 +105,33 @@ class Project(models.Model):
             return None
         filename = self.image.name.split('/')[-1]
         return f'core/images/projects/{filename}'
+
+    @property
+    def image_url(self):
+        if self.image:
+            return self.image.url
+        if self.static_image:
+            return f'/static/{self.static_image}'
+        return None
+
     live_url = models.URLField(blank=True)
+    video_file = models.FileField(
+        upload_to="projects/videos/",
+        blank=True,
+        null=True,
+        help_text="Upload demo video (MP4/WebM) for this project"
+    )
+    video_url = models.URLField(
+        blank=True,
+        help_text="Or paste external video link (YouTube, Vimeo, or MP4 URL)"
+    )
+
+    @property
+    def get_video_url(self):
+        if self.video_file:
+            return self.video_file.url
+        return self.video_url or None
+
     is_private = models.BooleanField(default=False)
     features = models.CharField(max_length=400, blank=True, help_text="Comma-separated, shown with check icons")
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default="completed")
@@ -111,6 +146,47 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Document(models.Model):
+    CATEGORY_CHOICES = [
+        ("cv", "CV / Resume"),
+        ("certificate", "Certificate / Diploma"),
+        ("transcript", "Academic Transcript"),
+        ("project", "Project Document"),
+        ("video", "Video Showcase"),
+        ("other", "Other Document"),
+    ]
+    title = models.CharField(max_length=150)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default="cv")
+    file = models.FileField(upload_to="documents/", help_text="Upload your PDF, DOCX, or image document")
+    video_file = models.FileField(
+        upload_to="documents/videos/",
+        blank=True,
+        null=True,
+        help_text="Upload optional video file for this document"
+    )
+    video_url = models.URLField(
+        blank=True,
+        help_text="Or paste external video link"
+    )
+    description = models.TextField(blank=True, help_text="Optional document details or notes")
+    uploaded_at = models.DateTimeField(default=timezone.now)
+    order = models.PositiveSmallIntegerField(default=0)
+
+    @property
+    def get_video_url(self):
+        if self.video_file:
+            return self.video_file.url
+        return self.video_url or None
+
+    class Meta:
+        ordering = ["order", "-uploaded_at"]
+        verbose_name = "Uploaded Document"
+        verbose_name_plural = "Uploaded Documents"
+
+    def __str__(self):
+        return f"{self.title} ({self.get_category_display()})"
 
 
 class ContactMessage(models.Model):
@@ -138,6 +214,16 @@ class SiteSettings(models.Model):
         null=True,
         help_text="Upload your featured hero/profile photo here. Replaces the default photo on the homepage."
     )
+    hero_video = models.FileField(
+        upload_to="profile/videos/",
+        blank=True,
+        null=True,
+        help_text="Upload your intro/showcase video (MP4/WebM)"
+    )
+    hero_video_url = models.URLField(
+        blank=True,
+        help_text="Or paste video URL for intro showcase"
+    )
     email = models.EmailField(default="kandelsanjaya7@gmail.com")
     phone = models.CharField(max_length=40, blank=True)
     whatsapp_link = models.URLField(blank=True)
@@ -145,10 +231,22 @@ class SiteSettings(models.Model):
     github_url = models.URLField(blank=True)
     youtube_url = models.URLField(blank=True)
     tiktok_url = models.URLField(blank=True)
-    cv_url = models.CharField(max_length=300, blank=True)
+    cv_url = models.CharField(max_length=300, blank=True, help_text="External URL to your CV (if no file uploaded)")
+    cv_file = models.FileField(
+        upload_to="documents/",
+        blank=True,
+        null=True,
+        help_text="Upload your CV/Resume PDF or document here. Takes priority over cv_url."
+    )
     projects_completed = models.PositiveSmallIntegerField(default=5)
     years_experience = models.PositiveSmallIntegerField(default=2)
     client_satisfaction = models.PositiveSmallIntegerField(default=100)
+
+    @property
+    def get_hero_video_url(self):
+        if self.hero_video:
+            return self.hero_video.url
+        return self.hero_video_url or None
 
     class Meta:
         verbose_name = "Site Setting"
@@ -165,3 +263,5 @@ class SiteSettings(models.Model):
     def load(cls):
         obj, _ = cls.objects.get_or_create(pk=1)
         return obj
+
+

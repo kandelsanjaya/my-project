@@ -1,0 +1,390 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="en" data-theme="dark" id="htmlRoot">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Portal Access | Sanjaya Kandel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   SK ADMIN — NEXT-GEN GLASSMORPHIC LOGIN PORTAL
+   ═══════════════════════════════════════════════════════════ */
+:root, [data-theme="dark"] {
+  --bg-root:       #0C0916;
+  --bg-card:       rgba(24, 19, 42, 0.75);
+  --border:        rgba(139, 92, 246, 0.25);
+  --border-focus:  #8B5CF6;
+  --text-primary:  #F1EFFF;
+  --text-secondary:#A89CC8;
+  --text-muted:    #6D6490;
+  --accent-btn:    linear-gradient(135deg, #7C3AED, #A855F7, #EC4899);
+  --accent-glow:   rgba(139, 92, 246, 0.4);
+  --input-bg:      rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="light"] {
+  --bg-root:       #F4F0EC;
+  --bg-card:       rgba(255, 255, 255, 0.88);
+  --border:        rgba(212, 84, 122, 0.25);
+  --border-focus:  #D4547A;
+  --text-primary:  #1A1A2E;
+  --text-secondary:#6B5E5A;
+  --text-muted:    #9E908B;
+  --accent-btn:    linear-gradient(135deg, #D4547A, #E8808A, #F59E0B);
+  --accent-glow:   rgba(212, 84, 122, 0.3);
+  --input-bg:      rgba(0, 0, 0, 0.03);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-root);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Floating Ambient Orbs */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+  animation: floatOrb 14s ease-in-out infinite alternate;
+}
+.orb-1 { width: 420px; height: 420px; background: #8B5CF6; top: -140px; left: -120px; }
+.orb-2 { width: 380px; height: 380px; background: #EC4899; bottom: -120px; right: -100px; animation-delay: -7s; }
+.orb-3 { width: 280px; height: 280px; background: #00f3ff; top: 40%; left: 70%; animation-delay: -3.5s; opacity: 0.35; }
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 40px) scale(1.08); }
+  100% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Theme Toggle Button */
+.theme-toggle-wrap {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+}
+#sk-theme-btn {
+  border-radius: 50px;
+  padding: 9px 20px;
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer;
+  font-size: 0.84rem; font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(120deg, #00f3ff, #ff007f, #00ff88, #7000ff, #00f3ff);
+  background-size: 300% 300%;
+  animation: neonWaterflow 4s ease infinite;
+  border: none;
+  box-shadow: 0 0 18px rgba(0, 243, 255, 0.5);
+  transition: all 0.3s ease;
+}
+#sk-theme-btn:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 0 25px rgba(0, 243, 255, 0.8); }
+
+@keyframes neonWaterflow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Login Card Container */
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 44px 36px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.login-card:hover {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 24px 65px var(--accent-glow);
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 34px;
+}
+.brand-icon {
+  width: 60px; height: 60px;
+  background: var(--accent-btn);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; font-weight: 900; color: #fff;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 28px var(--accent-glow);
+  letter-spacing: -1px;
+}
+.brand-title { font-size: 1.5rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+.brand-sub { font-size: 0.86rem; color: var(--text-secondary); margin-top: 5px; }
+
+/* Error/Success Alert Box */
+.login-error {
+  background: rgba(248, 113, 113, 0.12);
+  border-left: 4px solid #F87171;
+  color: #F87171;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 22px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Inputs & Form */
+.form-group {
+  margin-bottom: 22px;
+}
+.form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.form-input {
+  width: 100%;
+  padding: 13px 44px 13px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.25s ease;
+}
+.form-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.toggle-pass-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+.toggle-pass-btn:hover { color: var(--text-primary); }
+
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--accent-btn);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 24px var(--accent-glow);
+  margin-top: 10px;
+  letter-spacing: 0.3px;
+}
+.login-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+  box-shadow: 0 10px 32px var(--accent-glow);
+}
+
+/* Autofill badge button */
+.autofill-btn {
+  width: 100%;
+  margin-top: 18px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.autofill-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--border-focus);
+  color: var(--text-primary);
+}
+.hint-badge {
+  background: var(--input-bg);
+  padding: 2px 8px;
+  border-radius: 5px;
+  color: var(--text-primary);
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.login-footer {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 0.82rem;
+}
+.login-footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.login-footer a:hover { color: var(--border-focus); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
+
+<div class="theme-toggle-wrap">
+  <button id="sk-theme-btn" onclick="toggleTheme()">
+    <span id="sk-theme-icon">☀️</span>
+    <span id="sk-theme-label">Light</span>
+  </button>
+</div>
+
+<div class="login-card">
+  <div class="login-brand">
+    <div class="brand-icon">SK</div>
+    <h1 class="brand-title">Portfolio Admin Access</h1>
+    <p class="brand-sub">Authenticate to unlock dashboard controls</p>
+  </div>
+
+  {% if form.errors and not form.non_field_errors %}
+  <div class="login-error">
+    <span>⚠️</span>
+    <div>Invalid username or password. Please verify credentials.</div>
+  </div>
+  {% endif %}
+
+  {% if form.non_field_errors %}
+  <div class="login-error">
+    <span>⚠️</span>
+    <div>
+    {% for error in form.non_field_errors %}
+      {{ error }}
+    {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+  <div class="login-error" style="background:rgba(34,197,94,0.12); border-color:#22C55E; color:#22C55E;">
+    <span>✓</span>
+    <div>Authenticated as <strong>{{ user.username }}</strong>. <a href="{% url 'portfolio_admin:index' %}" style="color:#22C55E; font-weight:800; text-decoration:underline;">Enter Dashboard →</a></div>
+  </div>
+  {% endif %}
+
+  <form action="{{ app_path }}" method="post" id="login-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="form-label" for="id_username">Admin ID / Username</label>
+      <div class="input-wrapper">
+        <input type="text" name="username" id="id_username" class="form-input" placeholder="skandel" value="skandel" required autofocus>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="id_password">Password</label>
+      <div class="input-wrapper">
+        <input type="password" name="password" id="id_password" class="form-input" placeholder="••••••••" required>
+        <button type="button" class="toggle-pass-btn" id="togglePassBtn" onclick="togglePasswordVisibility()" title="Show/Hide Password">
+          👁️
+        </button>
+      </div>
+    </div>
+
+    <input type="hidden" name="next" value="{{ next|default:'/admin/' }}">
+
+    <button type="submit" class="login-btn">
+      Unlock Dashboard Access →
+    </button>
+  </form>
+
+  <button type="button" class="autofill-btn" onclick="autoFillCredentials()">
+    🔑 Quick Auto-fill: <span class="hint-badge">skandel</span> / <span class="hint-badge">kandel@123</span>
+  </button>
+
+  <div class="login-footer">
+    <a href="/">← Return to Public Portfolio Website</a>
+  </div>
+</div>
+
+<script>
+// Password toggle
+function togglePasswordVisibility() {
+  const passInput = document.getElementById('id_password');
+  const btn = document.getElementById('togglePassBtn');
+  if (passInput.type === 'password') {
+    passInput.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    passInput.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+// Auto fill credentials button
+function autoFillCredentials() {
+  document.getElementById('id_username').value = 'skandel';
+  document.getElementById('id_password').value = 'kandel@123';
+}
+
+// Dual Theme switcher
+const html = document.getElementById('htmlRoot');
+const themeIcon  = document.getElementById('sk-theme-icon');
+const themeLabel = document.getElementById('sk-theme-label');
+
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  localStorage.setItem('sk-admin-theme', t);
+  if (t === 'dark') { themeIcon.textContent = '☀️'; themeLabel.textContent = 'Light'; }
+  else              { themeIcon.textContent = '🌙'; themeLabel.textContent = 'Dark';  }
+}
+function toggleTheme() { applyTheme(html.dataset.theme === 'dark' ? 'light' : 'dark'); }
+(function() { const saved = localStorage.getItem('sk-admin-theme') || 'dark'; applyTheme(saved); })();
+</script>
+</body>
+</html>

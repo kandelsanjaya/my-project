@@ -14,32 +14,38 @@
   </div>
 </div>
 
-{# ── 4 Stat Cards ─────────────────────────────────────── #}
-<div class="sk-stats-row">
+{# ── Stat Cards ─────────────────────────────────────────── #}
+<div class="sk-stats-row" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
   <div class="sk-stat">
-    <div class="sk-stat-icon">👁️</div>
-    <div class="sk-stat-label">Total Visits</div>
-    <div class="sk-stat-value">{{ visitor_total }}</div>
-    <div class="sk-stat-sub"><span class="sk-stat-up">↑ All time</span></div>
-  </div>
-  <div class="sk-stat">
-    <div class="sk-stat-icon">📅</div>
+    <div class="sk-stat-icon">☀️</div>
     <div class="sk-stat-label">Today</div>
     <div class="sk-stat-value">{{ visitor_today }}</div>
     <div class="sk-stat-sub">visits today</div>
   </div>
   <div class="sk-stat">
-    <div class="sk-stat-icon">📈</div>
-    <div class="sk-stat-label">This Week</div>
-    <div class="sk-stat-value">{{ visitor_week }}</div>
-    <div class="sk-stat-sub">last 7 days</div>
+    <div class="sk-stat-icon">🗓️</div>
+    <div class="sk-stat-label">This Month</div>
+    <div class="sk-stat-value">{{ visitor_month }}</div>
+    <div class="sk-stat-sub">this month</div>
+  </div>
+  <div class="sk-stat">
+    <div class="sk-stat-icon">📅</div>
+    <div class="sk-stat-label">This Year</div>
+    <div class="sk-stat-value">{{ visitor_year }}</div>
+    <div class="sk-stat-sub">this year</div>
+  </div>
+  <div class="sk-stat">
+    <div class="sk-stat-icon">👁️</div>
+    <div class="sk-stat-label">All Time</div>
+    <div class="sk-stat-value">{{ visitor_total }}</div>
+    <div class="sk-stat-sub"><span class="sk-stat-up">↑ Total views</span></div>
   </div>
   <div class="sk-stat">
     <div class="sk-stat-icon">✉️</div>
-    <div class="sk-stat-label">Unread Messages</div>
+    <div class="sk-stat-label">Messages</div>
     <div class="sk-stat-value">{{ unread_messages }}</div>
     <div class="sk-stat-sub">
-      {% if unread_messages > 0 %}<span class="sk-stat-down">needs attention</span>{% else %}all read ✓{% endif %}
+      {% if unread_messages > 0 %}<span class="sk-stat-down">unread</span>{% else %}all read ✓{% endif %}
     </div>
   </div>
 </div>
@@ -53,6 +59,10 @@
   <a href="{% url 'portfolio_admin:visitor-stats' %}" class="sk-quick-item">
     <div class="sk-quick-icon">📊</div>
     Analytics
+  </a>
+  <a href="{% url 'portfolio_admin:core_document_changelist' %}" class="sk-quick-item">
+    <div class="sk-quick-icon">📂</div>
+    Documents
   </a>
   <a href="{% url 'portfolio_admin:core_skill_add' %}" class="sk-quick-item">
     <div class="sk-quick-icon">⚡</div>
@@ -131,6 +141,7 @@
           <a href="{{ model.admin_url }}" style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);text-decoration:none !important;color:inherit !important;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">
             <span style="font-size:1.1rem;">
               {% if 'Contact' in model.name %}✉️
+              {% elif 'Document' in model.name %}📂
               {% elif 'Skill' in model.name %}⚡
               {% elif 'Project' in model.name %}🗂️
               {% elif 'Education' in model.name %}🎓
