@@ -30,13 +30,22 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['kandelsanjaya.com.np', 'www.kandelsanjaya.com.np', 'kandelsanjaya-portfolio.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://kandelsanjaya.com.np',
     'https://www.kandelsanjaya.com.np',
     'https://kandelsanjaya-portfolio.onrender.com',
+    'https://*.onrender.com',
+    'http://kandelsanjaya.com.np',
+    'http://www.kandelsanjaya.com.np',
+    'http://kandelsanjaya-portfolio.onrender.com',
+    'http://localhost',
+    'http://127.0.0.1',
 ]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Application definition
 
 INSTALLED_APPS = [
