@@ -19,6 +19,12 @@ class PortfolioAdminSite(AdminSite):
     index_template = "admin/custom_index.html"
     login_template = "admin/login.html"
 
+    def logout(self, request, extra_context=None):
+        from django.contrib.auth import logout
+        from django.shortcuts import redirect
+        logout(request)
+        return redirect("portfolio_admin:login")
+
     def get_urls(self):
         urls = super().get_urls()
         custom = [

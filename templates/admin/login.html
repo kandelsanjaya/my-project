@@ -343,10 +343,6 @@ body {
     </button>
   </form>
 
-  <button type="button" class="autofill-btn" onclick="autoFillCredentials()">
-    🔑 Quick Auto-fill: <span class="hint-badge">skandel</span> / <span class="hint-badge">kandel@123</span>
-  </button>
-
   <div class="login-footer">
     <a href="/">← Return to Public Portfolio Website</a>
   </div>
@@ -364,12 +360,6 @@ function togglePasswordVisibility() {
     passInput.type = 'password';
     btn.textContent = '👁️';
   }
-}
-
-// Auto fill credentials button
-function autoFillCredentials() {
-  document.getElementById('id_username').value = 'skandel';
-  document.getElementById('id_password').value = 'kandel@123';
 }
 
 // Dual Theme switcher

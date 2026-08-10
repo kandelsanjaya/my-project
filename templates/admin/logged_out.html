@@ -1,0 +1,12 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url={% url 'portfolio_admin:login' %}">
+<title>Logged Out | Redirecting...</title>
+<script>window.location.href = "{% url 'portfolio_admin:login' %}";</script>
+</head>
+<body style="background:#100D1E; color:#F1EFFF; font-family:sans-serif; text-align:center; padding-top:100px;">
+  <p>Logging out... Redirecting to <a href="{% url 'portfolio_admin:login' %}" style="color:#8B5CF6;">Admin Login Page</a></p>
+</body>
+</html>
